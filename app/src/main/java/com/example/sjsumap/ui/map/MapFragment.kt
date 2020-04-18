@@ -15,6 +15,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
 /**
@@ -26,6 +27,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var mMap: GoogleMap? = null
     private var query: String? = null
     private val locateZoom = 18.5F
+    private var marker: Marker? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.i("map_info", "in onCreate")
@@ -61,32 +63,45 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         Log.i("map_info", "initiate map call back")
         mMap = googleMap
+//        mMap!!.isMyLocationEnabled = true
         Log.i("map_info", "on map ready")
         if (query != null) {
             geoLocate(query as String)
             Log.i("map_info", "text: $query")
         }
+        mMap?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter{
+            override fun getInfoContents(p0: Marker?): View {
+                val infoWindow = layoutInflater.inflate(R.layout.info_window, null)
+                infoWindow.findViewById<TextView>(R.id.info_title).text = marker?.title
+                infoWindow.findViewById<TextView>(R.id.info_description).text = marker?.snippet
+                return infoWindow
+            }
+
+            override fun getInfoWindow(p0: Marker?): View? {
+                return null
+            }
+        })
     }
 
     private fun geoLocate(param1: String) {
         val gc = Geocoder(activity)
         val addresses = gc.getFromLocationName(param1, 1)
         if (addresses.size > 0) {
-            val lat = addresses[0].latitude
-            val lng = addresses[0].longitude
-            val name = addresses[0].getAddressLine(0)
-            Log.i("map_info", "geolocate: $name")
-            moveToLocation(lat, lng, locateZoom, name)
+            val add = addresses[0]
+            val lat = add.latitude
+            val lng = add.longitude
+            val name = add.getAddressLine(0)
+            Log.i("map_info", "geolocate: $add")
+            moveToLocation(lat, lng, locateZoom)
+            marker = mMap!!.addMarker(MarkerOptions().position(LatLng(lat,lng)).title(name).snippet(add.locality))
         }else{
             Toast.makeText(activity, "Error: Location not found!", Toast.LENGTH_LONG).show()
         }
 
     }
 
-    private fun moveToLocation(lat: Double, lng: Double, zoom: Float, name: String) {
+    private fun moveToLocation(lat: Double, lng: Double, zoom: Float) {
         val loc = LatLng(lat, lng)
-        mMap!!.addMarker(MarkerOptions().position(loc).title(name))
         mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, zoom))
-        Toast.makeText(activity, name, Toast.LENGTH_LONG).show()
     }
 }

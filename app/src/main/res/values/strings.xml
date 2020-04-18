@@ -21,4 +21,5 @@
     <string name="map_fragment_start_text">start_main</string>
 
     <string name="search_hint">Search location</string>
+    <string name="info_image_title">Logo</string>
 </resources>
