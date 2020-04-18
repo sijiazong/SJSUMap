@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">SJSU Interactive Campus Map</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">San Jose State University</string>
+    <string name="nav_header_subtitle">Interactive Campus Map</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="search">Search</string>
+
+    <string name="menu_home">SJSU Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_explore">Explore Services</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_map">Campus Map</string>
+
+    <string name="title_activity_maps">Map</string>
+    <string name="content_main_text">Main Content Text</string>
+    <string name="explore_fragment_text">hello explore fragment</string>
+    <string name="fragment_explore_text">fragment_explore</string>
+    <string name="map_fragment_start_text">start_main</string>
+
+    <string name="search_hint">Search location</string>
+</resources>
