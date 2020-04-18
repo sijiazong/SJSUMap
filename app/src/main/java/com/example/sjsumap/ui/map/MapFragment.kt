@@ -70,10 +70,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             Log.i("map_info", "text: $query")
         }
         mMap?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter{
-            override fun getInfoContents(p0: Marker?): View {
+            override fun getInfoContents(mk: Marker?): View {
                 val infoWindow = layoutInflater.inflate(R.layout.info_window, null)
-                infoWindow.findViewById<TextView>(R.id.info_title).text = marker?.title
-                infoWindow.findViewById<TextView>(R.id.info_description).text = marker?.snippet
+                infoWindow.findViewById<TextView>(R.id.info_title).text = mk?.title
+                infoWindow.findViewById<TextView>(R.id.info_description).text = mk?.snippet
                 return infoWindow
             }
 
@@ -81,6 +81,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 return null
             }
         })
+        mMap?.setOnMarkerClickListener {
+            if (it != null) {
+                it.showInfoWindow()
+                Toast.makeText(activity, "Marker ${it.title}", Toast.LENGTH_LONG).show()
+            }
+            true
+        }
     }
 
     private fun geoLocate(param1: String) {
