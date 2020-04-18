@@ -16,7 +16,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import java.io.IOException
 
 /**
  * A simple [Fragment] subclass.
@@ -71,22 +70,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private fun geoLocate(param1: String) {
         val gc = Geocoder(activity)
-        try{
-            val addresses = gc.getFromLocationName(param1, 1)
-            if (addresses.size > 0) {
-                val lat = addresses[0].latitude
-                val lng = addresses[0].longitude
-                val name = addresses[0].getAddressLine(0)
-                Log.i("map_info", "geolocate: $name")
-                moveToLocation(lat, lng, locateZoom, name)
-            }
-        } catch (e: IOException){
-            Log.i("map_info", "can not find location")
-            Toast.makeText(activity, "Error :Can not find location!", Toast.LENGTH_LONG).show()
-        } catch (e: Exception){
-            Log.i("map_info", e.message)
-            Toast.makeText(activity, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+        val addresses = gc.getFromLocationName(param1, 1)
+        if (addresses.size > 0) {
+            val lat = addresses[0].latitude
+            val lng = addresses[0].longitude
+            val name = addresses[0].getAddressLine(0)
+            Log.i("map_info", "geolocate: $name")
+            moveToLocation(lat, lng, locateZoom, name)
+        }else{
+            Toast.makeText(activity, "Error: Location not found!", Toast.LENGTH_LONG).show()
         }
+
     }
 
     private fun moveToLocation(lat: Double, lng: Double, zoom: Float, name: String) {
