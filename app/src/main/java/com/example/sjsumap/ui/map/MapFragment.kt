@@ -94,22 +94,28 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun applyPolygonStyle(polygon: Polygon) {
-        polygon.apply {
-            fillColor = Color.parseColor(polygonColor)
-            strokeColor = Color.parseColor(polygonColor)
-        }
-    }
 
     private fun getPolygonData() {
         val text = FileHelper.getTextFromResources(activity!!.applicationContext, R.raw.buildings)
         val buildings = JSONArray(text)
         for (i in 0 until buildings.length()) {
             val building = buildings.getJSONObject(i)
-            val pointsOuter = getBuildingPoints(building, "outer")
-            val pointsInner = getBuildingPoints(building, "inner")
-            drawPolygons(pointsInner, pointsOuter)
+            val buildingName = building.getString("name")
+            val polygonOptions = getPolygonOptions(building)
+            val polygon = drawPolygons(polygonOptions)
+            polygon.tag = buildingName
         }
+    }
+
+    private fun getPolygonOptions(building: JSONObject): PolygonOptions {
+        val pointsOuter = getBuildingPoints(building, "outer")
+        val pointsInner = getBuildingPoints(building, "inner")
+        val polygonOptions = PolygonOptions()
+        polygonOptions.clickable(true).addAll(pointsOuter)
+        if (pointsInner.isNotEmpty()) {
+            polygonOptions.addHole(pointsInner)
+        }
+        return polygonOptions
     }
 
     private fun getBuildingPoints(building: JSONObject, typeTag: String): ArrayList<LatLng> {
@@ -123,15 +129,20 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         return points
     }
 
-    private fun drawPolygons(pointsInner: ArrayList<LatLng>, pointsOuter: ArrayList<LatLng>) {
-        val polygonOptions = PolygonOptions().clickable(true).addAll(pointsOuter)
-        if (pointsInner.isNotEmpty()) {
-            polygonOptions.addHole(pointsInner)
-        }
-        val polygon: Polygon = mMap!!.addPolygon(polygonOptions)
+    private fun drawPolygons(options: PolygonOptions): Polygon {
+        val polygon: Polygon = mMap!!.addPolygon(options)
         applyPolygonStyle(polygon)
+        mMap!!.setOnPolygonClickListener { polygon ->
+            Log.i("polygon_info", "clicked ${polygon.tag}") }
+        return polygon
     }
 
+    private fun applyPolygonStyle(polygon: Polygon) {
+        polygon.apply {
+            fillColor = Color.parseColor(polygonColor)
+            strokeColor = Color.parseColor(polygonColor)
+        }
+    }
 
     private fun geoLocate(param1: String) {
         val gc = Geocoder(activity)

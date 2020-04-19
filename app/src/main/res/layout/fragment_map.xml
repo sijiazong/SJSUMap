@@ -9,9 +9,9 @@
     <TextView
         android:id="@+id/map_text"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
         android:text="@string/map_fragment_start_text"
-        android:textSize="24sp"
+        android:textSize="18sp"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintStart_toStartOf="parent"
         map:layout_constraintTop_toTopOf="parent" />

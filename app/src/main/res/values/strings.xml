@@ -22,4 +22,7 @@
 
     <string name="search_hint">Search location</string>
     <string name="info_image_title">Logo</string>
+    <string name="details_image_desc">building image</string>
+    <string name="details_description">Building description</string>
+    <string name="details_title">Details Title</string>
 </resources>

@@ -2,16 +2,11 @@ package com.example.sjsumap
 
 import android.app.SearchManager
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.text.Layout
 import android.util.Log
 import android.view.Menu
 import android.view.View
-import android.view.ViewGroup
 import android.widget.SearchView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.findNavController
@@ -23,7 +18,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_search.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -37,17 +31,20 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener { view: View ->
             Snackbar.make(view, "Check directions here", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+                .setAction("Action", null).show()
         }
         val drawerLayout = activity_main_layout
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.nav_map, R.id.nav_explore, R.id.nav_search, R.id.nav_home, R.id.nav_gallery), drawerLayout)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_map, R.id.nav_explore, R.id.nav_search, R.id.nav_home, R.id.nav_gallery
+            ), drawerLayout
+        )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
@@ -67,9 +64,13 @@ class MainActivity : AppCompatActivity() {
                 Log.i("search_info", "inside onQueryTextSubmit query:$query")
                 val args = Bundle()
                 args.putString("param1", query)
-                findNavController(R.id.nav_host_fragment).navigate(R.id.action_search_location, args)
+                findNavController(R.id.nav_host_fragment).navigate(
+                    R.id.action_search_location,
+                    args
+                )
                 return false
             }
+
             override fun onQueryTextChange(newText: String?): Boolean {
                 return false
             }
