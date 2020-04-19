@@ -11,16 +11,6 @@
             android:title="@string/menu_home" />
 
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
-
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
-
-        <item
             android:id="@+id/nav_map"
             android:icon="@drawable/ic_map"
             android:title="@string/menu_map" />
@@ -35,6 +25,10 @@
             android:icon="@drawable/ic_search"
             android:title="@string/menu_search"/>
 
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/menu_gallery" />
 
     </group>
 </menu>

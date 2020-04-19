@@ -1,5 +1,6 @@
 package com.example.sjsumap.ui.map
 
+import android.graphics.Color
 import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
@@ -10,13 +11,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.sjsumap.R
+import com.example.sjsumap.utilities.FileHelper
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
+import org.json.JSONArray
+
 
 /**
  * A simple [Fragment] subclass.
@@ -28,6 +30,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var query: String? = null
     private val locateZoom = 18.5F
     private var marker: Marker? = null
+    private val polygonColor = "#E5A823"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.i("map_info", "in onCreate")
@@ -63,13 +66,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         Log.i("map_info", "initiate map call back")
         mMap = googleMap
-//        mMap!!.isMyLocationEnabled = true
+//        drawPolygons(mMap!!)
+        getPolygonData()
         Log.i("map_info", "on map ready")
         if (query != null) {
             geoLocate(query as String)
             Log.i("map_info", "text: $query")
         }
-        mMap?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter{
+        mMap?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
             override fun getInfoContents(mk: Marker?): View {
                 val infoWindow = layoutInflater.inflate(R.layout.info_window, null)
                 infoWindow.findViewById<TextView>(R.id.info_title).text = mk?.title
@@ -90,18 +94,63 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    private fun drawPolygons(pointsInner: ArrayList<LatLng>, pointsOuter: ArrayList<LatLng>) {
+        val polygon_options = PolygonOptions().clickable(true).addAll(pointsOuter)
+        if (pointsInner.isNotEmpty()) {
+            polygon_options.addHole(pointsInner)
+        }
+        val polygon: Polygon = mMap!!.addPolygon(polygon_options)
+        applyPolygonStyle(polygon)
+    }
+
+    private fun applyPolygonStyle(polygon: Polygon) {
+        polygon.apply {
+            fillColor = Color.parseColor(polygonColor)
+            strokeColor = Color.parseColor(polygonColor)
+        }
+    }
+
+    private fun getPolygonData() {
+        val text = FileHelper.getTextFromResources(activity!!.applicationContext, R.raw.buildings)
+        val buildings = JSONArray(text)
+        for (i in 0 until buildings.length()) {
+            val building = buildings.getJSONObject(i)
+            val pointsOuter = arrayListOf<LatLng>()
+            val coordsOuter = building.getJSONArray("outer")
+            for (j in 0 until coordsOuter.length()) {
+                val coord = coordsOuter.getJSONObject(j)
+                val point = LatLng(coord.getDouble("lat"), coord.getDouble("lng"))
+                pointsOuter.add(point)
+            }
+            val pointsInner = arrayListOf<LatLng>()
+            val coordsInner = building.getJSONArray("inner")
+            for (k in 0 until coordsInner.length()) {
+                val coord = coordsInner.getJSONObject(k)
+                val point = LatLng(coord.getDouble("lat"), coord.getDouble("lng"))
+                pointsInner.add(point)
+            }
+//            if (pointsInner.isNotEmpty()) {
+//                pointsInner.add(pointsInner[0])
+//            }
+            drawPolygons(pointsInner, pointsOuter)
+        }
+    }
+
+
     private fun geoLocate(param1: String) {
         val gc = Geocoder(activity)
         val addresses = gc.getFromLocationName(param1, 1)
-        if (addresses.size > 0) {
+        if (addresses.isNotEmpty()) {
             val add = addresses[0]
             val lat = add.latitude
             val lng = add.longitude
             val name = add.getAddressLine(0)
             Log.i("map_info", "geolocate: $add")
             moveToLocation(lat, lng, locateZoom)
-            marker = mMap!!.addMarker(MarkerOptions().position(LatLng(lat,lng)).title(name).snippet(add.locality))
-        }else{
+            marker = mMap!!.addMarker(
+                MarkerOptions().position(LatLng(lat, lng)).title(name).snippet(add.locality)
+            )
+        } else {
             Toast.makeText(activity, "Error: Location not found!", Toast.LENGTH_LONG).show()
         }
 
