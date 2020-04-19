@@ -18,6 +18,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import org.json.JSONArray
+import org.json.JSONObject
 
 
 /**
@@ -66,7 +67,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         Log.i("map_info", "initiate map call back")
         mMap = googleMap
-//        drawPolygons(mMap!!)
         getPolygonData()
         Log.i("map_info", "on map ready")
         if (query != null) {
@@ -94,15 +94,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun drawPolygons(pointsInner: ArrayList<LatLng>, pointsOuter: ArrayList<LatLng>) {
-        val polygon_options = PolygonOptions().clickable(true).addAll(pointsOuter)
-        if (pointsInner.isNotEmpty()) {
-            polygon_options.addHole(pointsInner)
-        }
-        val polygon: Polygon = mMap!!.addPolygon(polygon_options)
-        applyPolygonStyle(polygon)
-    }
-
     private fun applyPolygonStyle(polygon: Polygon) {
         polygon.apply {
             fillColor = Color.parseColor(polygonColor)
@@ -115,25 +106,30 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val buildings = JSONArray(text)
         for (i in 0 until buildings.length()) {
             val building = buildings.getJSONObject(i)
-            val pointsOuter = arrayListOf<LatLng>()
-            val coordsOuter = building.getJSONArray("outer")
-            for (j in 0 until coordsOuter.length()) {
-                val coord = coordsOuter.getJSONObject(j)
-                val point = LatLng(coord.getDouble("lat"), coord.getDouble("lng"))
-                pointsOuter.add(point)
-            }
-            val pointsInner = arrayListOf<LatLng>()
-            val coordsInner = building.getJSONArray("inner")
-            for (k in 0 until coordsInner.length()) {
-                val coord = coordsInner.getJSONObject(k)
-                val point = LatLng(coord.getDouble("lat"), coord.getDouble("lng"))
-                pointsInner.add(point)
-            }
-//            if (pointsInner.isNotEmpty()) {
-//                pointsInner.add(pointsInner[0])
-//            }
+            val pointsOuter = getBuildingPoints(building, "outer")
+            val pointsInner = getBuildingPoints(building, "inner")
             drawPolygons(pointsInner, pointsOuter)
         }
+    }
+
+    private fun getBuildingPoints(building: JSONObject, typeTag: String): ArrayList<LatLng> {
+        val points = arrayListOf<LatLng>()
+        val coordinates = building.getJSONArray(typeTag)
+        for (i in 0 until coordinates.length()) {
+            val coordinate = coordinates.getJSONObject(i)
+            val point = LatLng(coordinate.getDouble("lat"), coordinate.getDouble("lng"))
+            points.add(point)
+        }
+        return points
+    }
+
+    private fun drawPolygons(pointsInner: ArrayList<LatLng>, pointsOuter: ArrayList<LatLng>) {
+        val polygonOptions = PolygonOptions().clickable(true).addAll(pointsOuter)
+        if (pointsInner.isNotEmpty()) {
+            polygonOptions.addHole(pointsInner)
+        }
+        val polygon: Polygon = mMap!!.addPolygon(polygonOptions)
+        applyPolygonStyle(polygon)
     }
 
 
