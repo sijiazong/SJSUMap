@@ -98,7 +98,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private fun getPolygonData() {
         val text = FileHelper.getTextFromResources(activity!!.applicationContext, R.raw.buildings)
         val buildings = JSONArray(text)
-        for (i in 0 until buildings.length()) {
+        for (i in 0 until buildings.length()){
             val building = buildings.getJSONObject(i)
             val buildingName = building.getString("name")
             val polygonOptions = getPolygonOptions(building)
@@ -135,6 +135,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         mMap!!.setOnPolygonClickListener { polygon ->
             val args = Bundle()
             args.putString("building_name", polygon.tag.toString())
+            Log.i("polygon","click ${polygon.tag}")
             activity!!.findNavController(R.id.nav_host_fragment).navigate(R.id.action_nav_map_to_detailsFragment, args)
         }
         return polygon

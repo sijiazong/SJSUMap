@@ -1,13 +1,12 @@
 package com.example.sjsumap.ui.details
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-
+import androidx.fragment.app.Fragment
 import com.example.sjsumap.R
 import com.example.sjsumap.utilities.FileHelper
 import org.json.JSONArray
@@ -37,11 +36,13 @@ class DetailsFragment : Fragment() {
         for (i in 0 until buildings.length()) {
             val building = buildings.getJSONObject(i)
             val name = building.getString("name")
-            if (name == buildingName){
-                view.findViewById<TextView>(R.id.description).text = building.getString("building desc")
+            if (name == buildingName) {
+                view.findViewById<TextView>(R.id.description).text =
+                    building.getString("building desc")
                 view.findViewById<TextView>(R.id.services).text = building.getString("service desc")
-                val imageName = building.getString("img").replace(".jpg","")
-                val resourceId = resources.getIdentifier(imageName, "drawable", activity!!.packageName)
+                val imageName = building.getString("img").replace(".jpg", "")
+                val resourceId =
+                    resources.getIdentifier(imageName, "drawable", activity!!.packageName)
                 view.findViewById<ImageView>(R.id.image).setImageResource(resourceId)
             }
         }
