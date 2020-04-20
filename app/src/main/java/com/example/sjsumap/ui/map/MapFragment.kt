@@ -33,9 +33,34 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var marker: Marker? = null
     private val polygonColor = "#E5A823"
 
+    companion object Polygons {
+        val polygonsData = HashMap<String, PolygonOptions>()
+
+        private fun getPolygonOptions(building: JSONObject): PolygonOptions {
+            val pointsOuter = getBuildingPoints(building, "outer")
+            val pointsInner = getBuildingPoints(building, "inner")
+            val polygonOptions = PolygonOptions()
+            polygonOptions.clickable(true).addAll(pointsOuter)
+            if (pointsInner.isNotEmpty()) {
+                polygonOptions.addHole(pointsInner)
+            }
+            return polygonOptions
+        }
+
+        private fun getBuildingPoints(building: JSONObject, typeTag: String): ArrayList<LatLng> {
+            val points = arrayListOf<LatLng>()
+            val coordinates = building.getJSONArray(typeTag)
+            for (i in 0 until coordinates.length()) {
+                val coordinate = coordinates.getJSONObject(i)
+                val point = LatLng(coordinate.getDouble("lat"), coordinate.getDouble("lng"))
+                points.add(point)
+            }
+            return points
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.i("map_info", "in onCreate")
-        Log.i("map_info", "arguments $arguments")
+        Log.i("map_info", "onCreate: arguments $arguments")
         super.onCreate(savedInstanceState)
         arguments?.let {
             query = it.getString("param1")
@@ -50,7 +75,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         if (mMap == null) {
             initMap(this)
         }
-        Log.i("map_info", "query: $query")
+        Log.i("map_info", "onCreateView: query: $query")
         return mapView
     }
 
@@ -62,15 +87,55 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        Log.i("map_info", "initiate map call back")
+        Log.i("map_info", "onMapReady: initiate map call back")
         mMap = googleMap
-        getPolygonData()
-        Log.i("map_info", "on map ready")
+        addPolygonsToMap()
         if (query != null) {
-            geoLocate(query as String)
-            Log.i("map_info", "text: $query")
+            Log.i("service_info", query)
+            when (query) {
+                "Service: Dining" -> {
+                    addServiceMarker(query!!, mMap!!)
+                }
+                else -> {
+                    geoLocate(query as String)
+                    Log.i("map_info", "text: $query")
+                }
+            }
+
         }
-        mMap?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
+//        setInfoWindow(mMap!!)
+//        setOnMarkerClickListener(mMap!!)
+    }
+
+    private fun addPolygonsToMap() {
+        Log.i("map_info", "add polygon to map")
+        if (polygonsData.isEmpty()) {
+            getPolygonData()
+        }
+        for ((name, options) in polygonsData){
+            val polygon = drawPolygon(options)
+            polygon.tag = name
+        }
+    }
+
+    private fun addServiceMarker(serviceName: String, mMap: GoogleMap) {
+        val options = MarkerOptions().position(LatLng(37.336521, -121.882658)).title(serviceName)
+        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.food))
+        marker = mMap.addMarker(options)
+    }
+
+    private fun setOnMarkerClickListener(map: GoogleMap) {
+        map.setOnMarkerClickListener {
+            if (it != null) {
+                it.showInfoWindow()
+                Toast.makeText(activity, "Marker ${it.title}", Toast.LENGTH_LONG).show()
+            }
+            true
+        }
+    }
+
+    private fun setInfoWindow(map: GoogleMap) {
+        map.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
             override fun getInfoContents(mk: Marker?): View {
                 val infoWindow = layoutInflater.inflate(R.layout.info_window, null)
                 infoWindow.findViewById<TextView>(R.id.info_title).text = mk?.title
@@ -82,58 +147,31 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 return null
             }
         })
-        mMap?.setOnMarkerClickListener {
-            if (it != null) {
-                it.showInfoWindow()
-                Toast.makeText(activity, "Marker ${it.title}", Toast.LENGTH_LONG).show()
-            }
-            true
-        }
     }
 
-
     private fun getPolygonData() {
+        Log.i("map_info", "get polygons data")
         val text = FileHelper.getTextFromResources(activity!!.applicationContext, R.raw.buildings)
         val buildings = JSONArray(text)
-        for (i in 0 until buildings.length()){
+        for (i in 0 until buildings.length()) {
+            Log.i("map_info", "get data from json: building $i")
             val building = buildings.getJSONObject(i)
             val buildingName = building.getString("name")
             val polygonOptions = getPolygonOptions(building)
-            val polygon = drawPolygons(polygonOptions)
-            polygon.tag = buildingName
+            polygonsData[buildingName] = polygonOptions
         }
     }
 
-    private fun getPolygonOptions(building: JSONObject): PolygonOptions {
-        val pointsOuter = getBuildingPoints(building, "outer")
-        val pointsInner = getBuildingPoints(building, "inner")
-        val polygonOptions = PolygonOptions()
-        polygonOptions.clickable(true).addAll(pointsOuter)
-        if (pointsInner.isNotEmpty()) {
-            polygonOptions.addHole(pointsInner)
-        }
-        return polygonOptions
-    }
-
-    private fun getBuildingPoints(building: JSONObject, typeTag: String): ArrayList<LatLng> {
-        val points = arrayListOf<LatLng>()
-        val coordinates = building.getJSONArray(typeTag)
-        for (i in 0 until coordinates.length()) {
-            val coordinate = coordinates.getJSONObject(i)
-            val point = LatLng(coordinate.getDouble("lat"), coordinate.getDouble("lng"))
-            points.add(point)
-        }
-        return points
-    }
-
-    private fun drawPolygons(options: PolygonOptions): Polygon {
+    private fun drawPolygon(options: PolygonOptions): Polygon {
+        Log.i("map_info", "draw polygons")
         val polygon: Polygon = mMap!!.addPolygon(options)
         applyPolygonStyle(polygon)
         mMap!!.setOnPolygonClickListener { polygon ->
             val args = Bundle()
             args.putString("building_name", polygon.tag.toString())
-            Log.i("polygon","click ${polygon.tag}")
-            activity!!.findNavController(R.id.nav_host_fragment).navigate(R.id.action_nav_map_to_detailsFragment, args)
+            Log.i("polygon", "click ${polygon.tag}")
+            activity!!.findNavController(R.id.nav_host_fragment)
+                .navigate(R.id.action_nav_map_to_detailsFragment, args)
         }
         return polygon
     }
@@ -161,7 +199,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         } else {
             Toast.makeText(activity, "Error: Location not found!", Toast.LENGTH_LONG).show()
         }
-
     }
 
     private fun moveToLocation(lat: Double, lng: Double, zoom: Float) {
