@@ -104,7 +104,7 @@
     "inner": [],
     "building desc": "In 1962, Science and Applied Arts was established. When being constructed, the building was on a $350 budget, and they had to use equipment from World War II to construct it.",
     "service desc": "The Science building now houses Physics and Astronomy. Printing avaliable at the interconnect hallway between the Science Building and Washington Square Building. Contact: 408-924-4800",
-    "img": "./css/scienceBuilding.jpg"
+    "img": "science_building.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f7a",
@@ -135,7 +135,7 @@
     "inner": [],
     "building desc": "The Business Tower is on 10th st. and San Antonio st.",
     "service desc": "The Lucas College and Graduate School of Business is located in the Business Tower on the SJSU Campus. Contact: 408-924-3420",
-    "img": "./css/businessTower.jpg"
+    "img": "business_tower.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f7d",
@@ -282,7 +282,7 @@
     "inner": [],
     "building desc": "Clark Hall was built in 1984-1986 as the campus library and named for former SJSU President (1964 -1969) Robert D. Clark.",
     "service desc": "Clark Hall was remodeled to house the Clark Computer Lab, and create more functional space for conference and office purposes. Contact: 408 924-1000",
-    "img": "./css/clarkHall.jpg"
+    "img": "clark_hall.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f97",
@@ -381,7 +381,7 @@
     "inner": [],
     "building desc": "5-story parking structure located on the corner of S. 7th and E. San Salvador Streets.",
     "service desc": "Open 24 hours for drivers with 'E', 'R', 'H', Carpool, and Overnight permits. Hours for all other permits are open from 6:00 a.m. to 12 a.m. Permit Pay-Stations are available on floors 3 and above and on 1st floor for Disabled Parking area.",
-    "img": "./css/southParkingGarage.jpg"
+    "img": "south_parking_garage.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669fa0",
@@ -420,7 +420,7 @@
     "inner": [],
     "building desc": "Mod A and Mod B is located near the ATM Machines.",
     "service desc": "",
-    "img": "./css/modularAb.jpg"
+    "img": "modular_ab.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f8a",
@@ -451,7 +451,7 @@
     "inner": [],
     "building desc": "The Cooling plant is in charge of the cooling utility for the campus.",
     "service desc": "",
-    "img": "./css/coolingPlant.jpg"
+    "img": "cooling_plant.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f8e",
@@ -558,7 +558,7 @@
     "inner": [],
     "building desc": "Campus Village Building C (CVC), also known as 'The Suites' provides your group the ability to enjoy suite-style housing facilities with spacious floor plans and a variety of amenities that offer all the comforts of home and more.",
     "service desc": "Campus Village Suites (CVC) are freshman residence halls and house over 600 freshmen. Printing available at Rm 138A. Contact: 408-795-5678",
-    "img": "./css/villageC.jpg"
+    "img": "village_c.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f90",
@@ -753,7 +753,7 @@
     "inner": [],
     "building desc": "Opened in spring 1989, the Event Center is a multimillion-dollar complex comprised of a multifunctional arena.",
     "service desc": "Features the SJSU Sport Club, which includes a gym, workout room, indoor basketball court, indoor racquetball courts and a lounge area with a 48 inch TV. Contact: 408-924-6360 for Adminstation or 408-924-6333 for Box Office.",
-    "img": "./css/eventCenter.jpg"
+    "img": "event_center.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f9b",
@@ -1096,7 +1096,7 @@
     "inner": [],
     "building desc": "Campus Village Building B (CVB) is the centerpiece of the Campus Village and features a 15 story tower.",
     "service desc": "Campus Village B (CVB) are suite style apartments that are available for transfer students and 2nd year and above students. Printing available at Rm 138A. Contact: 408-795-5600",
-    "img": "./css/villageB.jpg"
+    "img": "village_b.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f93",
@@ -1135,7 +1135,7 @@
     "inner": [],
     "building desc": "This state-of-the-art facility houses everything you need to begin or maintain your fitness goals",
     "service desc": "Houses a 20,000 sq. ft. of cardio/strength equipment, three full-court gyms for basketball, volleyball, badminton, four fitness studios1/8-mile indoor track, climbing wall and bouldering area 50-meter lap pool, and recreation pool with sundeck and BBQ area. Contact: 408-924-6368",
-    "img": "./css/spartanRecreation.jpg"
+    "img": "spartan_recreation.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f99",
@@ -1206,7 +1206,7 @@
     "inner": [],
     "building desc": "5-story parking structure located on the corner of S. 4th and E. San Salvador Streets.",
     "service desc": "Operational hours from 6:00 a.m- 1:00 am. Permit Pay-Stations available in garage.",
-    "img": "./css/westParkingGarage.jpg"
+    "img": "west_parking_garage.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f83",
@@ -1437,7 +1437,7 @@
     "inner": [],
     "building desc": "The Student Union is conveniently located at the heart of the San José State University campus.",
     "service desc": "Hosting selected resturants such as Panda Express, Steak & Shake, Jamba Juice, Paseo Fresh, Building Your Own Pizza, and the Market.  Printing available in Rm 1900, 1947.",
-    "img": "./css/studentUnion.jpg"
+    "img": "student_union.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f84",
@@ -1612,7 +1612,7 @@
     "inner": [],
     "building desc": "Dwight Bentel Hall houses Journalism and Mass Communication departments with concentrations in Advertising and Public Relations.",
     "service desc": "The Spartan Daily newspaper, which comes out 3 times a week, received 16 awards at the California College Media Association and placed 2nd nationwide among four­ year daily newspapers in the Associated Collegiate Press. Contact: 408-924-1748",
-    "img": "./css/dwightBental.jpg"
+    "img": "dwight_bental.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f89",
@@ -1875,7 +1875,7 @@
     "inner": [],
     "building desc": "Tower Hall​ is the official symbol of SJSU.",
     "service desc": "The building is still used as a lecture hall and serves as the office of the presidential administration.",
-    "img": "./css/towerHall.jpg"
+    "img": "tower_hall.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f96",
@@ -1926,7 +1926,7 @@
     "inner": [],
     "building desc": "The building was built in honor of Carl D. Ducan, a former SJSU professor and chairman of the Natural Sciences Division.",
     "service desc": "Duncan hall houses the departments of Science Education, Biological Sciences, Chemistry, Meteorology, Photography, Nuclear Science and Geology. Printing available at the elevator lobby. Contact: 408-924-1000",
-    "img": "./css/duncanHall.jpg"
+    "img": "duncan_hall.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f9a",
@@ -1981,7 +1981,7 @@
     "inner": [],
     "building desc": "Corporation Yard A houses the facilities Development and Operations department.",
     "service desc": "",
-    "img": "./css/corporationA.jpg"
+    "img": "corporation_a.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f73",
@@ -2068,7 +2068,7 @@
     "inner": [],
     "building desc": "Dudley Moorehead Hall is located east of the Martin Luther King Jr. Library.",
     "service desc": "Dudley Moorhead Hall houses Instructional Resource Center (IRC), History, Psychology, Social Science, Economics, Sociology, Women’s Studies, and Asian ­American Studies.",
-    "img": "./css/mooreheadHall.jpg"
+    "img": "moorehead_hall.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f78",
@@ -2115,7 +2115,7 @@
     "inner": [],
     "building desc": "San José State University's Career Center helps connect Bay Area employers with students and alumni preparing to start their career.",
     "service desc": "Members receive the following services: Unlimited Access to SJSU Handshake, Career Center lab access and basic guidance, Web resource subscriptions, including GoinGlobal and Big Interview, and On-campus recruiting, including career fairs and employer information sessions. Contact: 408-924-6031",
-    "img": "./css/careerCenter.jpg"
+    "img": "career_center.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f7c",
@@ -2234,7 +2234,7 @@
     "inner": [],
     "building desc": "Opened in 1954, Hugh Gillis Hall was named in honor of Hugh Gillis, a Theater Arts Department Chair and educator.",
     "service desc": "The HGH houses the Department of Communication Studies and the Department of Film & Theatre, the SJSU Hal Todd Studio Theatre can seat up to 140 people with a box office to buy tickets for upcoming events, Hugh Gillis Hall houses the KSJS 90.5 FM, our award­ winning college radio station. Contact: 408-924-4530",
-    "img": "./css/gillisHall.jpg"
+    "img": "gillis_hall.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f87",
@@ -2305,7 +2305,7 @@
     "inner": [],
     "building desc": "The eastern part of the Spartan Complex, which was recently renovated in spring 2015.",
     "service desc": "This is a multi-use building with locker rooms, natatorium, classrooms, and offices.",
-    "img": "./css/complexEast.jpg"
+    "img": "complex_east.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f91",
@@ -2464,7 +2464,7 @@
     "inner": [],
     "building desc": "Joe West Hall houses over 650 guests, offering single and double occupancy rooms.",
     "service desc": "Joe West Hall is the perfect environment for youth and adult groups, offering a supportive, community based environment with an added element of independent living. Contact: 408-795-5678",
-    "img": "./css/joeWest.jpg"
+    "img": "joe_west.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f92",
@@ -2503,7 +2503,7 @@
     "inner": [],
     "building desc": "The University Police Department (UPD) is committed to providing a safe and secure learning environment through professional, progressive and superior police, emergency, transportation and educational services in alliance with the campus.",
     "service desc": "​UPD offers many programs available to students including the escort program and the evening shuttle. Contact: 408-924-2222",
-    "img": "./css/upd.jpg"
+    "img": "upd.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f88",
@@ -2662,7 +2662,7 @@
     "inner": [],
     "building desc": "Yoshihiro Uchida Hall ​is shared by the Kinesiology, A​thletics​, and ​health science and recreation​ departments.",
     "service desc": "Uchida Hall houses state­ of­t the he­art academic facilities such as an exercise physiology research lab, a stress management lab and classroom, a sportsmedicine center and many fully equipped, modern classrooms.Contact: 408-924-1000",
-    "img": "./css/yoshihiroUchida.jpg"
+    "img": "yoshihiro_uchida.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669fa3",
@@ -2821,7 +2821,7 @@
     "inner": [],
     "building desc": "The School of Music and Dance has long been known for its excellence in teaching, its accomplished artist faculty, its diverse student population, and its leadership role in music and dance education.",
     "service desc": "Many performance events are performed in the Conert Hall, located on the first floor near the entrance. Multiple practice rooms in the second floor for student and faculty use. Contact: 408-924-4673",
-    "img": "./css/musicBuilding.jpg"
+    "img": "music_building.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f7e",
@@ -2976,7 +2976,7 @@
     "inner": [],
     "building desc": "Dr. Martin Luther King Jr. Library is a collaboration with the San José State University and San José Public Library system.",
     "service desc": "The MLK library provides tutoring, computing technology, and practice rooms for students and faculty use. Printing available on the 3rd, 4th, and on the Print Hub. Contact: 408-808-2000",
-    "img": "./css/kingLibrary.jpg"
+    "img": "king_library.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f8f",
@@ -3031,7 +3031,7 @@
     "inner": [],
     "building desc": "Campus Village Building 2 (CV2), is a 10 story residence hall houses 850 students.",
     "service desc": "Typical layout with double rooms, furnished, and restrooms facilities are shared. Printing available at Rm 100. Contact: 408-924-1000",
-    "img": "./css/village2.jpg"
+    "img": "village2.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f9c",
@@ -3183,7 +3183,7 @@
     ],
     "building desc": "Sweeney Hall is the home to the College of Education",
     "service desc": "The departments housed within Sweeney Hall include Child and Adolescent Development, Communicative Disorders & Sciences, and the Education Credentials Office. Printing available is 1st floor hallway near room 116.",
-    "img": "./css/sweenyHall.jpg"
+    "img": "sweeny_hall.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669fa2",
@@ -3378,7 +3378,7 @@
     "inner": [],
     "building desc": "6-story parking structure located on the corner of S. 10th and E. San Fernando Streets.",
     "service desc": "Operational hours from 6:00 a.m- 1:00 am. Permit Pay-Stations are available on 1st floor by elevators. The Student Service Center is located on the 1st floor and houses the SJSU Bursar's Office. Contact: 408-924-1601",
-    "img": "./css/northParkingGarage.jpg"
+    "img": "north_parking_garage.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f77",
@@ -3429,7 +3429,7 @@
     "inner": [],
     "building desc": "The Instructional Resource Center is located in the second floor of Dudley Moorehead Hall.",
     "service desc": "The IRC host the Instructional and Meeting Spaces (IMS) which its goals is to support the campus community's audio/visual, computer equipment and presentation needs. Contact: 408-924-2867",
-    "img": "./css/irc.jpg"
+    "img": "irc.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f98",
@@ -3508,7 +3508,7 @@
     "inner": [],
     "building desc": "MacQuarrie Hall is dedicated to Thomas MacQuarrie, who served as San Jose State's President from 1927 to 1952.",
     "service desc": "The departments housed within MacQuarrie Hall include Mathematics, Computer Science, Justice Studies, Forensic Science, Health Science, Human Rights, Legal Studies, Military Science, Aerospace Studies, Gerontology, and Recreation. Located on the first floor of the building, is a deli that offers sandwiches, coffee, Jamba Juice, and snacks.",
-    "img": "./css/macquarrieHall.jpg"
+    "img": "macquarrie_hall.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f75",
@@ -3611,7 +3611,7 @@
     "inner": [],
     "building desc": "The Industrial Studies Building is located on the northeastern side of campus next to Davidson College of Engineering.",
     "service desc": "The Department of Aviation and Technology is located on the first floor of the Industrial Studies Building. Printers available in the lobby of the building. Contact: 408-924-3800",
-    "img": "./css/industrialBuilding.jpg"
+    "img": "industrial_building.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f7b",
@@ -3650,7 +3650,7 @@
     "inner": [],
     "building desc": "Built in 1971 in conjunction with the Business Tower, the Boccardo Business Center houses the Business Student Advisement Center for counseling and advising for all business majors and minors.",
     "service desc": "Business Administration has four focuses, which include Accounting & Finance, Management Information Systems, Marketing, and Organization & Management. The computer lab is located on the 3rd floor of the Boccardo Business Center available to all students. Contact: 408-924-1000",
-    "img": "./css/boccardoCenter.jpg"
+    "img": "boccardo_center.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f7f",
@@ -3693,7 +3693,7 @@
     "inner": [],
     "building desc": "The Spartan Memorial serves as a site to honor all SJSU students that served in World War II.",
     "service desc": "It was also a chapel that offered marriages for $25; however, it now serves as a non­denominational facility and can be reserved for prayer, meetings, readings, and weddings.",
-    "img": "./css/spartanMemorial.jpg"
+    "img": "spartan_memorial.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f80",
@@ -3808,7 +3808,7 @@
     "inner": [],
     "building desc": "Built in 1924 to match the Tower Hall quad, the Central Classroom Building houses Nutritional science, Food Science, Packaging, and our Occupational Therapy program.",
     "service desc": "The child development program maintains a pre­school childcare facility for practical experience andobservation for Child Development. Contact: 408-924-1000",
-    "img": "./css/centralBuilding.jpg"
+    "img": "central_building.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f8d",
@@ -3855,7 +3855,7 @@
     "inner": [],
     "building desc": "The Dining Commons offers 12 different concepts of food for housing residents that are inspired by a variety of places around the world.",
     "service desc": "This college food court has various counter-serves, from Italian food to a juice bar to Asian fare. Contact: 408-924-1740",
-    "img": "./css/diningCommons.jpg"
+    "img": "dining_commons.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f9d",
@@ -3890,7 +3890,7 @@
     "inner": [],
     "building desc": "ATM Machines near the SJSU Student Union for students and faculty to use. Banking includes Bank of America, Wells Fargo, Chase, and Bank of the West.",
     "service desc": "Deposits and withdraws.",
-    "img": "./css/atmMachines.jpg"
+    "img": "atm_machines.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f9e",
@@ -3969,7 +3969,7 @@
     "inner": [],
     "building desc": "Corporation Yard B houses the facilities Development and Operations department.",
     "service desc": "",
-    "img": "./css/corporationB.jpg"
+    "img": "corporation_b.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f74",
@@ -4008,7 +4008,7 @@
     "inner": [],
     "building desc": "The mission of the Computer Center is to deliver technical solutions and services to SJSU students, faculty and staff.",
     "service desc": "The Computer Center is in charge of managing all Spartan Print Stations and Computer Labs around campus for students and faculty. Contact: 408-924-1530",
-    "img": "./css/computerCenter.jpg"
+    "img": "computer_center.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f85",
@@ -4075,7 +4075,7 @@
     "inner": [],
     "building desc": "The Faculty Office Building is located east of the Spartan Memorial.",
     "service desc": "",
-    "img": "./css/facultyOffices.jpg"
+    "img": "faculty_offices.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669fa1",
@@ -4194,7 +4194,7 @@
     "inner": [],
     "building desc": "The Department of Art & Art History offers a unique combination of award-winning faculty and staff, outstanding facilities, and a wide range of focus areas, including traditional and digital media arts, art history, and curatorial studies.",
     "service desc": "Gallaries include the Natalie & James Thompson Gallery and six additional Student Galleries. The Visual Resources Library is located in room 139 of the Art Building. Contact: 408-924-4340",
-    "img": "./css/artBuilding.jpg"
+    "img": "art_building.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f82",
@@ -4273,7 +4273,7 @@
     "inner": [],
     "building desc": "Washington Square Hall used to be called the New Science Building, before it was closed in 1980 for renovations. It was renamed Washington Square Hall when it reopened in 1991.",
     "service desc": "Washington Square Hall houses the Environmental Resource Center and Center for the Development of Recycling. Printing avaliable at the interconnect hallway between the Science Building and Washington Square Building.",
-    "img": "./css/washingtonSquare.jpg"
+    "img": "washington_square.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f95",
@@ -4376,7 +4376,7 @@
     "inner": [],
     "building desc": "One of three halls that are part of 'The Bricks', a freshman residence hall",
     "service desc": "Houses approximately 230 students and has a community kitchen and laundry room, as well as a recreational center on the bottom floors with pianos, televisions, couches, study areas, pool tables, and ping pong tables.",
-    "img": "./css/washburnHall.jpg"
+    "img": "washburn_hall.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f76",
@@ -4431,7 +4431,7 @@
     "inner": [],
     "building desc": "To support the mission of San José State University, the Administration and Finance Division seeks to be responsive and continuously refine the services we offer.",
     "service desc": "Service group includes the Facilities Development & Operations (FD&O), Finance, Spartan Shops, Inc., University Police (UPD).Contact: 408-924-1500",
-    "img": "./css/adminstration.jpg"
+    "img": "adminstration.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f86",
@@ -4478,7 +4478,7 @@
     "inner": [],
     "building desc": "The Student Wellness Center works with students to take care of all dimensions of wellness: physical, social, emotional, occupational, multicultural, environmental, spiritual and intellectual.",
     "service desc": "Host the Student Health Center and Accessible Education Center, provides counseling and psychological services, and assisting students experiencing unforeseen economic crisis, food and housing insecurities though SJSU cares. Contact: 408-924-6122",
-    "img": "./css/studentWellness.jpg"
+    "img": "student_wellness.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f79",
@@ -4810,7 +4810,7 @@
     ],
     "building desc": "In 1945, SJSU started the first Engineering program in the State Colleges. Now a nationally ranked program, our Engineering department is one of our most popular choices on campus.",
     "service desc": "Programs included Aerospace Engineering, Aviation and Technology, Biomedical Engineering, Chemical and Materials Engineering, Civil and Environmental Engineering, Computer Engineering, Electrical Engineering, General Engineering, Industrial and Systems Engineering, Mechanical Engineering, and Graduate & Extended Studies. Printers available in Rm 200, 390. Contact: 408-924-3800",
-    "img": "./css/davidsonEngineering.jpg"
+    "img": "davidson_engineering.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f8b",
@@ -4841,7 +4841,7 @@
     "inner": [],
     "building desc": "The Health building houses our Nursing Department and our ​College of Applied Science and Arts (CASA).",
     "service desc": "The nursing students are provided with a simulation lab and skills lab on the 3rd floor.",
-    "img": "./css/healthBuilding.jpg"
+    "img": "health_building.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f8c",
@@ -4952,7 +4952,7 @@
     "inner": [],
     "building desc": "The central part of the Spartan Complex, which was recently renovated in spring 2015.",
     "service desc": "Houses the gymnasium,  offices,  classrooms,  locker rooms, dance studio, gymnastic room, and mechanical spaces.",
-    "img": "./css/complexCentral.jpg"
+    "img": "complex_central.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f94",
@@ -5151,7 +5151,7 @@
     "inner": [],
     "building desc": "Campus Village Building A (CVA) is located in the heart of Campus Village, a vibrant, student centered community in an urban setting.",
     "service desc": "Campus Village A (CVA) is open to seniors, graduate students, and faculty. Contact: 408-795-5600",
-    "img": "./css/villageA.jpg"
+    "img": "village_a.jpg"
   },
   {
     "_id": "5e6049a93d7d073132669f9f",
@@ -5198,6 +5198,6 @@
     "inner": [],
     "building desc": "Modular F is located near the ATM Machines.",
     "service desc": "",
-    "img": "./css/modularF.jpg"
+    "img": "modular_f.jpg"
   }
 ]
