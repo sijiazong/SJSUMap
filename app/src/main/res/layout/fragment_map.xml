@@ -18,7 +18,6 @@
         map:layout_constraintBottom_toBottomOf="parent"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toBottomOf="@+id/map_text"
         map:uiTiltGestures="false"
         tools:context=".ui.map.MapFragment" />
 </androidx.constraintlayout.widget.ConstraintLayout>

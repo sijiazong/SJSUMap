@@ -50,9 +50,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         if (mMap == null) {
             initMap(this)
         }
-        if (query != null) {
-            mapView.findViewById<TextView>(R.id.map_text).text = query
-        }
         Log.i("map_info", "query: $query")
         return mapView
     }
