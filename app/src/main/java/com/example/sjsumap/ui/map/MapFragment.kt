@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.sjsumap.R
 import com.example.sjsumap.utilities.FileHelper
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -19,7 +20,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import org.json.JSONArray
 import org.json.JSONObject
-
 
 /**
  * A simple [Fragment] subclass.
@@ -133,7 +133,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val polygon: Polygon = mMap!!.addPolygon(options)
         applyPolygonStyle(polygon)
         mMap!!.setOnPolygonClickListener { polygon ->
-            Log.i("polygon_info", "clicked ${polygon.tag}") }
+            val args = Bundle()
+            args.putString("building_name", polygon.tag.toString())
+            activity!!.findNavController(R.id.nav_host_fragment).navigate(R.id.action_nav_map_to_detailsFragment, args)
+        }
         return polygon
     }
 
