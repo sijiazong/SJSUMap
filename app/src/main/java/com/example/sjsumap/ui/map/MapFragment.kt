@@ -105,7 +105,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 if (serviceType in ExploreFragment.services_list) {
                     addServiceMarker(serviceType, mMap!!)
                 } else {
-                    Toast.makeText(activity, "Service Not found!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(activity, "Error: Can not find service!", Toast.LENGTH_LONG).show()
                 }
             } else {
                 geoLocate(query as String)
@@ -227,7 +227,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 MarkerOptions().position(LatLng(lat, lng)).title(name).snippet(add.locality)
             )
         } else {
-            Toast.makeText(activity, "Error: Location not found!", Toast.LENGTH_LONG).show()
+            Toast.makeText(activity, "Error: Cannot find location!", Toast.LENGTH_LONG).show()
         }
     }
 
