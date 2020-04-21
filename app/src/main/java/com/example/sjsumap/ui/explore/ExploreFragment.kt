@@ -19,23 +19,23 @@ import org.json.JSONObject
  */
 class ExploreFragment : Fragment() {
     companion object {
-        var services_list = mutableListOf<String>()
-        val services_data = HashMap<String, MutableList<String>>()
-        val services_icon = HashMap<String, String>()
+        var servicesList = mutableListOf<String>()
+        val servicesData = HashMap<String, MutableList<String>>()
+        val servicesIcon = HashMap<String, String>()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        if (services_data.isEmpty()) {
+        if (servicesData.isEmpty()) {
             getServiceData()
         }
         val listView = inflater.inflate(R.layout.fragment_explore, container, false)
-        val myAdapter = ArrayAdapter<String>(
+        val myAdapter = ArrayAdapter(
             activity!!.applicationContext,
             android.R.layout.simple_list_item_1,
-            services_list
+            servicesList
         )
         val list = listView.findViewById<ListView>(R.id.list)
         list.adapter = myAdapter
@@ -46,19 +46,19 @@ class ExploreFragment : Fragment() {
     private fun getServiceData() {
         val text = FileHelper.getTextFromResources(activity!!.applicationContext, R.raw.services)
         val servicesJson = JSONObject(text)
-        services_list = servicesJson.keys().asSequence().toMutableList()
-        for (service in services_list) {
+        servicesList = servicesJson.keys().asSequence().toMutableList()
+        for (service in servicesList) {
             val serviceJson = servicesJson.getJSONObject(service)
             val buildingsJson = serviceJson.getJSONArray("buildings")
             val buildingList = mutableListOf<String>()
             for (i in 0 until buildingsJson.length()) {
                 buildingList.add(buildingsJson[i].toString())
             }
-            services_data[service] = buildingList
-            services_icon[service] = serviceJson.getString("icon")
+            servicesData[service] = buildingList
+            servicesIcon[service] = serviceJson.getString("icon")
         }
-        Log.i("service_info", services_data.toString())
-        Log.i("service_icon", services_icon.toString())
+        Log.i("service_info", servicesData.toString())
+        Log.i("service_icon", servicesIcon.toString())
     }
 
     private fun setOnItemClickListener(list: ListView) {

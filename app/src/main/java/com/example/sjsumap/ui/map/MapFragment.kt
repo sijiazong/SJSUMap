@@ -97,12 +97,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         Log.i("map_info", "onMapReady: initiate map call back")
         mMap = googleMap
+        if (polygonsData.isEmpty()) {
+            getPolygonData()
+        }
         addPolygonsToMap()
         query?.let {
             Log.i("service_info", query.toString())
             if (query!!.startsWith("Service:", ignoreCase = true)) {
                 val serviceType = query!!.replace("Service:", "").trim()
-                if (serviceType in ExploreFragment.services_list) {
+                if (serviceType in ExploreFragment.servicesList) {
                     addServiceMarker(serviceType, mMap!!)
                 } else {
                     Toast.makeText(activity, "Error: Can not find service!", Toast.LENGTH_LONG).show()
@@ -118,9 +121,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private fun addPolygonsToMap() {
         Log.i("map_info", "add polygon to map")
-        if (polygonsData.isEmpty()) {
-            getPolygonData()
-        }
         for ((name, options) in polygonsData) {
             val polygon = drawPolygon(options)
             polygon.tag = name
@@ -131,8 +131,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         //if first time generate markers for the service, get all service markers for that service
         if (!serviceMarkers.containsKey(serviceType)) {
             Log.i("map_info", "generate marker for $serviceType")
-            val buildings = ExploreFragment.services_data[serviceType]!!
-            val icon = ExploreFragment.services_icon[serviceType]
+            val buildings = ExploreFragment.servicesData[serviceType]!!
+            val icon = ExploreFragment.servicesIcon[serviceType]
             val allOptions = mutableListOf<MarkerOptions>()
             val iconResourceId =
                 resources.getIdentifier(icon, "drawable", activity!!.packageName)
@@ -190,6 +190,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val buildingCenter = building.getJSONObject("center")
             buildingCenterData[buildingName] = createPointFromJson(buildingCenter)
         }
+        Log.i("buildings", polygonsData.keys.toString())
     }
 
     private fun drawPolygon(options: PolygonOptions): Polygon {
