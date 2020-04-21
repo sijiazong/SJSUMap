@@ -1,0 +1,100 @@
+{
+  "Academic & Administrative": {
+    "icon": "marker_building",
+    "buildings": [
+      "Administration",
+      "Boccardo Business Center",
+      "Business Tower",
+      "Career Center",
+      "Central Classroom Building",
+      "Clark Hall",
+      "Davidson College of Engineering",
+      "Dudley Moorehead Hall",
+      "Duncan Hall",
+      "Dwight Bentel Hall",
+      "Health Building",
+      "Hugh Gillis Hall",
+      "Industrial Studies Building",
+      "Instructional Resource Center",
+      "MacQuarrie Hall",
+      "Science Building",
+      "Spartan Complex Central",
+      "Spartan Complex East",
+      "Spartan Memorial",
+      "Sweeney Hall",
+      "Tower Hall",
+      "Washington Square Building",
+      "Yoshihiro Uchida Hall"
+    ]
+  },
+  "Arts & Performance": {
+    "icon": "marker_music",
+    "buildings": [
+      "Event Center",
+      "Music Building"
+    ]
+  },
+  "Athletic & Recreation": {
+    "icon": "marker_fitness",
+    "buildings": [
+      "Spartan Recreation and Aquatic Center"
+    ]
+  },
+  "Dining": {
+    "icon": "marker_food",
+    "buildings": [
+      "Dining Commons",
+      "Student Union"
+    ]
+  },
+  "Emergency Resources": {
+    "icon": "marker_emergency",
+    "buildings": [
+      "Student Wellness Center",
+      "University Police Department"
+    ]
+  },
+  "Housing": {
+    "icon": "marker_housing",
+    "buildings": [
+      "Campus Village 2",
+      "Campus Village A",
+      "Campus Village B",
+      "Campus Village C",
+      "Joe West Housing",
+      "Washburn Hall"
+    ]
+  },
+  "Libraries": {
+    "icon": "marker_library",
+    "buildings": [
+      "Martin Luther King Jr. Library"
+    ]
+  },
+  "Parking": {
+    "icon": "marker_parking",
+    "buildings": [
+      "North Parking Garage",
+      "South Parking Garage",
+      "West Parking Garage"
+    ]
+  },
+  "Printing": {
+    "icon": "marker_printer",
+    "buildings": [
+      "Campus Village 2",
+      "Campus Village B",
+      "Campus Village C",
+      "Clark Hall",
+      "Davidson College of Engineering",
+      "Duncan Hall",
+      "Industrial Studies Building",
+      "Joe West Housing",
+      "Martin Luther King Jr. Library",
+      "Science Building",
+      "Student Union",
+      "Sweeney Hall",
+      "Washington Square Building"
+    ]
+  }
+}
