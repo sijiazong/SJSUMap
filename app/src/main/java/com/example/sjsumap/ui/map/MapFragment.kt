@@ -33,11 +33,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var mMap: GoogleMap? = null
 
     companion object Polygons {
+        private const val POLYGON_COLOR = "#E5A823"
+        private const val LOCATE_ZOOM = 18.5F
+
         val polygonsData = HashMap<String, PolygonOptions>()
         val buildingCenterData = HashMap<String, LatLng>()
         val serviceMarkers = HashMap<String, MutableList<MarkerOptions>>()
-        private const val polygonColor = "#E5A823"
-        private const val locateZoom = 18.5F
 
         private fun getPolygonOptions(building: JSONObject): PolygonOptions {
             val pointsOuter = getBuildingPoints(building, "outer")
@@ -108,8 +109,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 if (serviceType in ExploreFragment.servicesList) {
                     addServiceMarker(serviceType, mMap!!)
                 } else {
-                    Toast.makeText(activity, "Error: Can not find service!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(activity, "Error: Can not find service!", Toast.LENGTH_LONG)
+                        .show()
                 }
+            } else if (resources.getStringArray(R.array.building_list).contains(query)) {
+                val center = buildingCenterData[query!!]!!
+                moveAndMarkLocation(center, query, "Campus Building")
             } else {
                 geoLocate(query as String)
                 Log.i("map_info", "text: $query")
@@ -209,7 +214,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private fun applyPolygonStyle(polygon: Polygon) {
         polygon.apply {
-            fillColor = Color.parseColor(polygonColor)
+            fillColor = Color.parseColor(POLYGON_COLOR)
             strokeColor = Color.GRAY
         }
     }
@@ -219,21 +224,22 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val addresses = gc.getFromLocationName(param1, 1)
         if (addresses.isNotEmpty()) {
             val add = addresses[0]
-            val lat = add.latitude
-            val lng = add.longitude
-            val name = add.getAddressLine(0)
             Log.i("map_info", "geolocate: $add")
-            moveToLocation(lat, lng, locateZoom)
-            marker = mMap!!.addMarker(
-                MarkerOptions().position(LatLng(lat, lng)).title(name).snippet(add.locality)
-            )
+            val latLng = LatLng(add.latitude, add.longitude)
+            moveAndMarkLocation(latLng, add.getAddressLine(0), add.locality)
         } else {
             Toast.makeText(activity, "Error: Cannot find location!", Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun moveToLocation(lat: Double, lng: Double, zoom: Float) {
-        val loc = LatLng(lat, lng)
-        mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, zoom))
+    private fun moveAndMarkLocation(
+        latLng: LatLng,
+        info_title: String?,
+        info_snippet: String?
+    ) {
+        mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, LOCATE_ZOOM))
+        marker = mMap!!.addMarker(
+            MarkerOptions().position(latLng).title(info_title).snippet(info_snippet)
+        )
     }
 }

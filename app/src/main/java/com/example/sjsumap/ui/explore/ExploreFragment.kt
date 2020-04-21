@@ -19,7 +19,8 @@ import org.json.JSONObject
  */
 class ExploreFragment : Fragment() {
     companion object {
-        var servicesList = mutableListOf<String>()
+        //        var servicesList = mutableListOf<String>()
+        lateinit var servicesList: Array<String>
         val servicesData = HashMap<String, MutableList<String>>()
         val servicesIcon = HashMap<String, String>()
     }
@@ -46,7 +47,8 @@ class ExploreFragment : Fragment() {
     private fun getServiceData() {
         val text = FileHelper.getTextFromResources(activity!!.applicationContext, R.raw.services)
         val servicesJson = JSONObject(text)
-        servicesList = servicesJson.keys().asSequence().toMutableList()
+//        servicesList = servicesJson.keys().asSequence().toMutableList()
+        servicesList = resources.getStringArray(R.array.service_list)
         for (service in servicesList) {
             val serviceJson = servicesJson.getJSONObject(service)
             val buildingsJson = serviceJson.getJSONArray("buildings")

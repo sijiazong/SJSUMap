@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="building_list">
+        <item>"Science Building"</item>
+        <item>"Clark Hall"</item>
+        <item>"Dwight Bentel Hall"</item>
+        <item>"Tower Hall"</item>
+        <item>"Spartan Recreation and Aquatic Center"</item>
+        <item>"Spartan Complex East"</item>
+        <item>"ATM Machines"</item>
+        <item>"Washburn Hall"</item>
+        <item>"Hugh Gillis Hall"</item>
+        <item>"Dudley Moorehead Hall"</item>
+        <item>"Business Tower"</item>
+        <item>"Yoshihiro Uchida Hall"</item>
+        <item>"Student Wellness Center"</item>
+        <item>"Health Building"</item>
+        <item>"Boccardo Business Center"</item>
+        <item>"Duncan Hall"</item>
+        <item>"Central Classroom Building"</item>
+        <item>"Career Center"</item>
+        <item>"Student Union"</item>
+        <item>"Martin Luther King Jr. Library"</item>
+        <item>"Faculty Office Building"</item>
+        <item>"Campus Village B"</item>
+        <item>"Music Building"</item>
+        <item>"Campus Village A"</item>
+        <item>"Industrial Studies Building"</item>
+        <item>"Campus Village C"</item>
+        <item>"Campus Village 2"</item>
+        <item>"Corporation Yard B"</item>
+        <item>"West Parking Garage"</item>
+        <item>"South Parking Garage"</item>
+        <item>"Art Building"</item>
+        <item>"Event Center"</item>
+        <item>"Corporation Yard A"</item>
+        <item>"Joe West Housing"</item>
+        <item>"Spartan Memorial"</item>
+        <item>"MacQuarrie Hall"</item>
+        <item>"Spartan Complex Central"</item>
+        <item>"Administration"</item>
+        <item>"Cooling Plant"</item>
+        <item>"Dining Commons"</item>
+        <item>"Mod A and Mod B"</item>
+        <item>"Washington Square Building"</item>
+        <item>"Davidson College of Engineering"</item>
+        <item>"Sweeney Hall"</item>
+        <item>"Computer Center"</item>
+        <item>"University Police Department"</item>
+        <item>"Instructional Resource Center"</item>
+        <item>"North Parking Garage"</item>
+        <item>"Modular F"</item>
+    </string-array>
+
+    <string-array name="service_list">
+        <item>"Academic &amp; Administrative"</item>
+        <item>"Arts &amp; Performance"</item>
+        <item>"Athletic &amp; Recreation"</item>
+        <item>"Dining"</item>
+        <item>"Emergency Resources"</item>
+        <item>"Housing"</item>
+        <item>"Libraries"</item>
+        <item>"Parking"</item>
+        <item>"Printing"</item>
+    </string-array>
+</resources>
