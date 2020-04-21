@@ -33,7 +33,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var mMap: GoogleMap? = null
 
     companion object Polygons {
-        private const val POLYGON_COLOR = "#E5A823"
+        private const val POLYGON_FILL_COLOR = "#80E5A823"
+        private const val POLYGON_STROKE_COLOR = "#BFE5A823"
         private const val LOCATE_ZOOM = 18.5F
 
         val polygonsData = HashMap<String, PolygonOptions>()
@@ -214,8 +215,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private fun applyPolygonStyle(polygon: Polygon) {
         polygon.apply {
-            fillColor = Color.parseColor(POLYGON_COLOR)
-            strokeColor = Color.GRAY
+            fillColor = Color.parseColor(POLYGON_FILL_COLOR)
+            strokeColor = Color.parseColor(POLYGON_STROKE_COLOR)
         }
     }
 

@@ -3,8 +3,8 @@
     <color name="colorPrimary">#0055A2</color>
     <color name="colorPrimaryDark">#1976D2</color>
     <color name="primary_light">#BBDEFB</color>
-    <color name="colorAccent">#E5A823</color>
-    <color name="polygon">#FFEB3B</color>
+    <color name="colorAccent">#1976D2</color>
+    <color name="colorAccentYellow">#E5A823</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#939597</color>
     <color name="background">#FFFFFF</color>
