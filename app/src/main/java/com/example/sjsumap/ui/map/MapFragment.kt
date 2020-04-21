@@ -138,7 +138,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 resources.getIdentifier(icon, "drawable", activity!!.packageName)
             for (building_name in buildings) {
                 val center = buildingCenterData[building_name]
-                val markerOptions = MarkerOptions().position(center!!).title(building_name).snippet(serviceType)
+                val markerOptions =
+                    MarkerOptions().position(center!!).title(building_name).snippet(serviceType)
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(iconResourceId))
                 allOptions.add(markerOptions)
             }

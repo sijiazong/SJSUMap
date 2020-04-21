@@ -46,7 +46,7 @@
     <fragment
         android:id="@+id/nav_details"
         android:name="com.example.sjsumap.ui.details.DetailsFragment"
-        android:label="@string/menu_details" >
+        android:label="@string/menu_details">
         <argument
             android:name="building_name"
             app:argType="string" />

@@ -23,6 +23,5 @@
         android:id="@+id/search_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/search"
-        />
+        android:text="@string/search" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

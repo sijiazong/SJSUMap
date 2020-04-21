@@ -18,7 +18,7 @@ import org.json.JSONObject
  * A simple [Fragment] subclass.
  */
 class ExploreFragment : Fragment() {
-    companion object{
+    companion object {
         var services_list = mutableListOf<String>()
         val services_data = HashMap<String, MutableList<String>>()
         val services_icon = HashMap<String, String>()
@@ -28,11 +28,15 @@ class ExploreFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        if (services_data.isEmpty()){
+        if (services_data.isEmpty()) {
             getServiceData()
         }
         val listView = inflater.inflate(R.layout.fragment_explore, container, false)
-        val myAdapter = ArrayAdapter<String>(activity!!.applicationContext, android.R.layout.simple_list_item_1, services_list)
+        val myAdapter = ArrayAdapter<String>(
+            activity!!.applicationContext,
+            android.R.layout.simple_list_item_1,
+            services_list
+        )
         val list = listView.findViewById<ListView>(R.id.list)
         list.adapter = myAdapter
         setOnItemClickListener(list)
@@ -43,12 +47,12 @@ class ExploreFragment : Fragment() {
         val text = FileHelper.getTextFromResources(activity!!.applicationContext, R.raw.services)
         val servicesJson = JSONObject(text)
         services_list = servicesJson.keys().asSequence().toMutableList()
-        for (service in services_list){
+        for (service in services_list) {
             val serviceJson = servicesJson.getJSONObject(service)
-            val buildingJson = serviceJson.getJSONArray("buildings")
+            val buildingsJson = serviceJson.getJSONArray("buildings")
             val buildingList = mutableListOf<String>()
-            for (i in 0 until buildingJson.length()){
-                buildingList.add(buildingJson[i].toString())
+            for (i in 0 until buildingsJson.length()) {
+                buildingList.add(buildingsJson[i].toString())
             }
             services_data[service] = buildingList
             services_icon[service] = serviceJson.getString("icon")

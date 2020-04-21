@@ -3,7 +3,6 @@ package com.example.sjsumap
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.view.Menu
 import android.widget.SearchView
