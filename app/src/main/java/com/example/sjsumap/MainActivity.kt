@@ -80,12 +80,7 @@ class MainActivity : AppCompatActivity() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 Log.i("search_info", "inside onQueryTextSubmit query:$query")
-                val args = Bundle()
-                args.putString("param1", query)
-                findNavController(R.id.nav_host_fragment).navigate(
-                    R.id.action_search_location,
-                    args
-                )
+                navigateToLocation(query)
                 return false
             }
 
@@ -113,9 +108,20 @@ class MainActivity : AppCompatActivity() {
                 val selection =
                     cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1))
                 searchView.setQuery(selection, false)
-                return true
+                Log.i("search_info", "inside onSuggestionClick query:$selection")
+                navigateToLocation(selection)
+                return false
             }
         })
+    }
+
+    private fun navigateToLocation(query: String?) {
+        val args = Bundle()
+        args.putString("param1", query)
+        findNavController(R.id.nav_host_fragment).navigate(
+            R.id.action_search_location,
+            args
+        )
     }
 
     override fun onSupportNavigateUp(): Boolean {
