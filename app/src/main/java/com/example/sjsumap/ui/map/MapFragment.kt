@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.sjsumap.R
+import com.example.sjsumap.ui.explore.ExploreFragment
 import com.example.sjsumap.utilities.FileHelper
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -27,14 +28,16 @@ import org.json.JSONObject
 
 class MapFragment : Fragment(), OnMapReadyCallback {
 
-    private var mMap: GoogleMap? = null
     private var query: String? = null
-    private val locateZoom = 18.5F
     private var marker: Marker? = null
-    private val polygonColor = "#E5A823"
+    private var mMap: GoogleMap? = null
 
     companion object Polygons {
         val polygonsData = HashMap<String, PolygonOptions>()
+        val buildingCenterData = HashMap<String, LatLng>()
+        val serviceMarkers = HashMap<String, MutableList<MarkerOptions>>()
+        private const val polygonColor = "#E5A823"
+        private const val locateZoom = 18.5F
 
         private fun getPolygonOptions(building: JSONObject): PolygonOptions {
             val pointsOuter = getBuildingPoints(building, "outer")
@@ -52,10 +55,16 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val coordinates = building.getJSONArray(typeTag)
             for (i in 0 until coordinates.length()) {
                 val coordinate = coordinates.getJSONObject(i)
-                val point = LatLng(coordinate.getDouble("lat"), coordinate.getDouble("lng"))
+                val point = createPointFromJson(coordinate)
                 points.add(point)
             }
             return points
+        }
+
+        private fun createPointFromJson(coordinate: JSONObject): LatLng {
+            val lat = coordinate.getDouble("lat")
+            val lng = coordinate.getDouble("lng")
+            return LatLng(lat, lng)
         }
     }
 
@@ -72,9 +81,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
         val mapView = inflater.inflate(R.layout.fragment_map, container, false)
-        if (mMap == null) {
-            initMap(this)
-        }
+        Log.i("map_info", "mMap: ${mMap.toString()}")
+        initMap(this)
         Log.i("map_info", "onCreateView: query: $query")
         return mapView
     }
@@ -90,18 +98,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         Log.i("map_info", "onMapReady: initiate map call back")
         mMap = googleMap
         addPolygonsToMap()
-        if (query != null) {
-            Log.i("service_info", query)
-            when (query) {
-                "Service: Dining" -> {
-                    addServiceMarker(query!!, mMap!!)
+        query?.let {
+            Log.i("service_info", query.toString())
+            if (query!!.startsWith("Service:", ignoreCase = true)) {
+                val serviceType = query!!.replace("Service:", "").trim()
+                if (serviceType in ExploreFragment.services_list) {
+                    addServiceMarker(serviceType, mMap!!)
+                } else {
+                    Toast.makeText(activity, "Service Not found!", Toast.LENGTH_LONG).show()
                 }
-                else -> {
-                    geoLocate(query as String)
-                    Log.i("map_info", "text: $query")
-                }
+            } else {
+                geoLocate(query as String)
+                Log.i("map_info", "text: $query")
             }
-
         }
 //        setInfoWindow(mMap!!)
 //        setOnMarkerClickListener(mMap!!)
@@ -112,16 +121,34 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         if (polygonsData.isEmpty()) {
             getPolygonData()
         }
-        for ((name, options) in polygonsData){
+        for ((name, options) in polygonsData) {
             val polygon = drawPolygon(options)
             polygon.tag = name
         }
     }
 
-    private fun addServiceMarker(serviceName: String, mMap: GoogleMap) {
-        val options = MarkerOptions().position(LatLng(37.336521, -121.882658)).title(serviceName)
-        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.food))
-        marker = mMap.addMarker(options)
+    private fun addServiceMarker(serviceType: String, mMap: GoogleMap) {
+        //if first time generate markers for the service, get all service markers for that service
+        if (!serviceMarkers.containsKey(serviceType)) {
+            Log.i("map_info", "generate marker for $serviceType")
+            val buildings = ExploreFragment.services_data[serviceType]!!
+            val icon = ExploreFragment.services_icon[serviceType]
+            val allOptions = mutableListOf<MarkerOptions>()
+            val iconResourceId =
+                resources.getIdentifier(icon, "drawable", activity!!.packageName)
+            for (building_name in buildings) {
+                val center = buildingCenterData[building_name]
+                val markerOptions = MarkerOptions().position(center!!).title(building_name).snippet(serviceType)
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(iconResourceId))
+                allOptions.add(markerOptions)
+            }
+            serviceMarkers[serviceType] = allOptions
+        }
+
+        val markersOptions = serviceMarkers[serviceType]
+        for (options in markersOptions!!) {
+            mMap.addMarker(options)
+        }
     }
 
     private fun setOnMarkerClickListener(map: GoogleMap) {
@@ -159,6 +186,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val buildingName = building.getString("name")
             val polygonOptions = getPolygonOptions(building)
             polygonsData[buildingName] = polygonOptions
+            val buildingCenter = building.getJSONObject("center")
+            buildingCenterData[buildingName] = createPointFromJson(buildingCenter)
         }
     }
 
@@ -166,10 +195,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         Log.i("map_info", "draw polygons")
         val polygon: Polygon = mMap!!.addPolygon(options)
         applyPolygonStyle(polygon)
-        mMap!!.setOnPolygonClickListener { polygon ->
+        mMap!!.setOnPolygonClickListener {
             val args = Bundle()
-            args.putString("building_name", polygon.tag.toString())
-            Log.i("polygon", "click ${polygon.tag}")
+            args.putString("building_name", it.tag.toString())
+            Log.i("polygon", "click ${it.tag}")
             activity!!.findNavController(R.id.nav_host_fragment)
                 .navigate(R.id.action_nav_map_to_detailsFragment, args)
         }
@@ -179,7 +208,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private fun applyPolygonStyle(polygon: Polygon) {
         polygon.apply {
             fillColor = Color.parseColor(polygonColor)
-            strokeColor = Color.parseColor(polygonColor)
+            strokeColor = Color.GRAY
         }
     }
 
