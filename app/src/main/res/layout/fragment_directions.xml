@@ -81,9 +81,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_ok"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:drawableRight="@drawable/ic_navigation"/>
 
     </LinearLayout>
 
