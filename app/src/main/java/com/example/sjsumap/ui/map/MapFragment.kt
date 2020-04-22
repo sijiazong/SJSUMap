@@ -2,6 +2,7 @@ package com.example.sjsumap.ui.map
 
 import android.graphics.Color
 import android.location.Geocoder
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.example.sjsumap.R
 import com.example.sjsumap.ui.explore.ExploreFragment
 import com.example.sjsumap.utilities.FileHelper
@@ -19,6 +24,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.maps.android.PolyUtil
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -113,6 +119,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     Toast.makeText(activity, "Error: Can not find service!", Toast.LENGTH_LONG)
                         .show()
                 }
+            } else if (query!!.startsWith("Directions:", ignoreCase = true)) {
+                val params = query!!.replace("Directions:", "").trim().split(" & ")
+//                Directions: Davidson College of Engineering & 47236 Cavanaugh Cmn, Fremont, CA
+//                Directions: Davidson College of Engineering & South Parking Garage
+                val origin = params[0]
+                val destination = params[1]
+                val mode = "walking"
+//        walking, driving, transit
+                renderDirections(origin, destination, mode)
+//        setInfoWindow(mMap!!)
+//        setOnMarkerClickListener(mMap!!)
             } else if (resources.getStringArray(R.array.building_list).contains(query)) {
                 val center = buildingCenterData[query!!]!!
                 moveAndMarkLocation(center, query, "Campus Building")
@@ -121,8 +138,119 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 Log.i("map_info", "text: $query")
             }
         }
-//        setInfoWindow(mMap!!)
-//        setOnMarkerClickListener(mMap!!)
+    }
+
+
+    private fun renderDirections(origin: String, destination: String, mode: String) {
+        val start = getRequestParam(origin)
+        val end = getRequestParam(destination)
+//        parameter format location name or origin=41.43206,-81.3899
+        val url = generateRequestUrl(start, end, mode)
+        Log.i("url", url)
+        val queue = Volley.newRequestQueue(activity!!.applicationContext)
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.GET, url, null,
+            Response.Listener { response ->
+                onDirectionsDataReady(response)
+            },
+            Response.ErrorListener { error ->
+                Log.i("url", "Request Error!")
+            }
+        )
+        queue.add(jsonObjectRequest)
+    }
+
+    private fun getRequestParam(input: String): String {
+        var param = input
+        /** if campus building, use lat lng to search directions**/
+        if (input in buildingCenterData) {
+            val place = buildingCenterData[input]
+            param = "${place!!.latitude},${place.longitude}"
+        }
+        return param
+    }
+
+    private fun onDirectionsDataReady(response: JSONObject) {
+        // When API call is done, create parser and convert into JsonObjec
+        // get to the correct element in JsonObject
+        val routes = response.getJSONArray("routes")
+        if (routes.length() > 0) {
+
+            /**
+             * use the first route if routes available
+             * use bounds to set camera
+             * **/
+            val boundsJson = routes.getJSONObject(0).getJSONObject("bounds")
+            val northeastJson = boundsJson.getJSONObject("northeast")
+            val southwestJson = boundsJson.getJSONObject("southwest")
+            val northeast = jsonObjectToLatLng(northeastJson)
+            val southwest = jsonObjectToLatLng(southwestJson)
+            val bounds = LatLngBounds(southwest, northeast)
+            mMap!!.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 120))
+
+            val legs = routes.getJSONObject(0).getJSONArray("legs")
+            val path = arrayListOf<HashMap<String, Double>>()
+            /** Traversing all legs */
+            for (i in 0 until legs.length()) {
+                val steps = legs.getJSONObject(i).getJSONArray("steps")
+
+                /** set up start and end marker **/
+                val startAddress = legs.getJSONObject(i).getString("start_address")
+                val startLocation = legs.getJSONObject(i).getJSONObject("start_location")
+                val endAddress = legs.getJSONObject(i).getString("end_address")
+                val endLocation = legs.getJSONObject(i).getJSONObject("end_location")
+                val startOptions = MarkerOptions().position(jsonObjectToLatLng(startLocation))
+                    .snippet(startAddress).title("Origin")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                val endOptions = MarkerOptions().position(jsonObjectToLatLng(endLocation))
+                    .snippet(endAddress).title("Destination")
+                mMap!!.addMarker(startOptions)
+                mMap!!.addMarker(endOptions)
+                /** Traversing all steps to draw polyline **/
+                for (j in 0 until steps.length()) {
+                    val polylinePoints =
+                        steps.getJSONObject(j).getJSONObject("polyline").getString("points")
+                    val decodedPoints: List<LatLng> = PolyUtil.decode(polylinePoints)
+                    /** Traversing all points  */
+                    for (point in decodedPoints) {
+                        val hm: HashMap<String, Double> = HashMap()
+                        hm["lat"] = point.latitude
+                        hm["lng"] = point.longitude
+                        path.add(hm)
+                    }
+                }
+            }
+            val points = arrayListOf<LatLng>()
+            for (point in path) {
+                val lat = point["lat"]
+                val lng = point["lng"]
+                val position = LatLng(lat!!, lng!!)
+                points.add(position)
+            }
+            val lineOptions = PolylineOptions().addAll(points)
+            lineOptions.color(Color.parseColor("#45A5F5"))
+            mMap!!.addPolyline(lineOptions)
+        } else {
+            Log.i("url", "Error finding routes")
+        }
+    }
+
+    private fun jsonObjectToLatLng(pointJson: JSONObject) =
+        LatLng(pointJson.getDouble("lat"), pointJson.getDouble("lng"))
+
+    private fun generateRequestUrl(origin: String, destination: String, mode: String): String {
+        val builder = Uri.Builder()
+        builder.scheme("https")
+            .authority("maps.googleapis.com")
+            .appendPath("maps")
+            .appendPath("api")
+            .appendPath("directions")
+            .appendPath("json")
+            .appendQueryParameter("origin", origin)
+            .appendQueryParameter("destination", destination)
+            .appendQueryParameter("mode", mode)
+            .appendQueryParameter("key", resources.getString(R.string.google_maps_key))
+        return builder.build().toString()
     }
 
     private fun addPolygonsToMap() {
