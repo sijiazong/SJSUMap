@@ -36,8 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener {
-            val dialog = DirectionsFragment()
-            dialog.show(supportFragmentManager, "DIRECTIONS_FRAGMENT")
+            findNavController(R.id.nav_host_fragment).navigate(R.id.nav_directions)
         }
         setUpNavigation()
     }
