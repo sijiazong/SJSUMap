@@ -16,6 +16,7 @@ import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.sjsumap.R
+import com.example.sjsumap.utilities.Helper
 
 private const val ARG_DEST = "destination"
 
@@ -66,19 +67,11 @@ class DirectionsFragment : Fragment() {
                     R.id.action_to_nav_map,
                     args
                 )
+                Helper.hideSoftKeyboard(activity!!)
             }
         }
-        val btnCancel: Button = directionView.findViewById(R.id.btnCancel)
-        btnCancel.setOnClickListener {
-//            dismiss()
-        }
+//        val btnCancel: Button = directionView.findViewById(R.id.btnCancel)
+//        btnCancel.setOnClickListener {}
         return directionView
     }
 }
-
-//fun hideKeyboardFrom(context: Context, view: View) {
-//    val imm: InputMethodManager =
-//        context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-//    imm.hideSoftInputFromWindow(view.windowToken, 0)
-//}
-//}

@@ -6,7 +6,4 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="AppTheme.AppCompat.Dialog.Alert.NoFloating" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:windowIsFloating">false</item>
-    </style>
 </resources>

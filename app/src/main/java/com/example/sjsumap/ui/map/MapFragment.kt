@@ -1,5 +1,6 @@
 package com.example.sjsumap.ui.map
 
+import android.app.AlertDialog
 import android.graphics.Color
 import android.location.Geocoder
 import android.net.Uri
@@ -8,8 +9,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.android.volley.Request
@@ -18,7 +22,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.sjsumap.R
 import com.example.sjsumap.ui.explore.ExploreFragment
-import com.example.sjsumap.utilities.FileHelper
+import com.example.sjsumap.utilities.Helper
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -38,6 +42,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var query: String? = null
     private var marker: Marker? = null
     private var mMap: GoogleMap? = null
+    private var isRouteVisible: Boolean = false
+    private var instructions = mutableListOf<String>()
+    private var instructionRow = 0
 
     companion object Polygons {
         private const val POLYGON_FILL_COLOR = "#80E5A823"
@@ -95,11 +102,39 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         Log.i("map_info", "onCreateView: query: $query")
         val fab: FloatingActionButton = mapView.findViewById(R.id.fab)
         fab.setOnClickListener {
-            val args = Bundle()
-            activity!!.findNavController(R.id.nav_host_fragment)
-                .navigate(R.id.action_nav_map_to_nav_directions, args)
+            if (isRouteVisible) {
+                showTextInstructions(inflater, container)
+            } else {
+                val args = Bundle()
+                activity!!.findNavController(R.id.nav_host_fragment)
+                    .navigate(R.id.action_nav_map_to_nav_directions, args)
+            }
         }
         return mapView
+    }
+
+    private fun showTextInstructions(inflater: LayoutInflater, container: ViewGroup?) {
+        val alertDialog: AlertDialog = AlertDialog.Builder(activity).create()
+        alertDialog.setTitle("Directions Instruction")
+        val dialogView = inflater.inflate(R.layout.instructions_dialog, container, false)
+        val lv: ListView = dialogView.findViewById(R.id.list)
+        val myAdapter = ArrayAdapter(
+            activity!!.applicationContext,
+            android.R.layout.simple_list_item_1,
+            instructions
+        )
+        lv.adapter = myAdapter
+        alertDialog.setView(dialogView)
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Back To Map") { dialog, _ -> dialog.dismiss() }
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Clear Directions") { dialog, _ ->
+            val args = Bundle()
+            activity!!.findNavController(R.id.nav_host_fragment).navigate(
+                R.id.action_to_nav_map,
+                args
+            )
+            dialog.dismiss()
+        }
+        alertDialog.show()
     }
 
     private fun initMap(obj: MapFragment) {
@@ -194,7 +229,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val southwest = jsonObjectToLatLng(southwestJson)
             val bounds = LatLngBounds(southwest, northeast)
             mMap!!.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 120))
-
             val legs = routes.getJSONObject(0).getJSONArray("legs")
             val path = arrayListOf<HashMap<String, Double>>()
             /** Traversing all legs */
@@ -215,6 +249,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 mMap!!.addMarker(endOptions)
                 /** Traversing all steps to draw polyline **/
                 for (j in 0 until steps.length()) {
+                    val htmlContent = HtmlCompat.fromHtml(
+                        steps.getJSONObject(j).getString("html_instructions"),
+                        HtmlCompat.FROM_HTML_MODE_COMPACT
+                    )
+                    instructionRow += 1
+                    instructions.add("$instructionRow. ${htmlContent.toString()}")
                     val polylinePoints =
                         steps.getJSONObject(j).getJSONObject("polyline").getString("points")
                     val decodedPoints: List<LatLng> = PolyUtil.decode(polylinePoints)
@@ -237,6 +277,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val lineOptions = PolylineOptions().addAll(points)
             lineOptions.color(Color.parseColor("#45A5F5"))
             mMap!!.addPolyline(lineOptions)
+            Log.i("html", "instructions: $instructions")
+//            mMap!!.setOnPolylineClickListener {
+//                showTextInstructions()
+//                Log.i("html", "clicked polyline")
+//            }
+            isRouteVisible = true
         } else {
             Log.i("url", "Error finding routes")
         }
@@ -320,7 +366,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private fun getPolygonData() {
         Log.i("map_info", "get polygons data")
-        val text = FileHelper.getTextFromResources(activity!!.applicationContext, R.raw.buildings)
+        val text = Helper.getTextFromResources(activity!!.applicationContext, R.raw.buildings)
         val buildings = JSONArray(text)
         for (i in 0 until buildings.length()) {
             Log.i("map_info", "get data from json: building $i")
