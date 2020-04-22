@@ -1,18 +1,12 @@
 package com.example.sjsumap.ui.navigation
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioButton
-import android.widget.RadioGroup
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.sjsumap.R
@@ -21,8 +15,8 @@ import com.example.sjsumap.utilities.Helper
 private const val ARG_DEST = "destination"
 
 class DirectionsFragment : Fragment() {
-    private var originText: EditText? = null
-    private var destinationText: EditText? = null
+    private var originText: AutoCompleteTextView? = null
+    private var destinationText: AutoCompleteTextView? = null
     private var modeGroup: RadioGroup? = null
     private var destination: String? = null
 
@@ -41,8 +35,11 @@ class DirectionsFragment : Fragment() {
         val directionView: View = inflater.inflate(R.layout.fragment_directions, container, false)
         originText = directionView.findViewById(R.id.origin)
         destinationText = directionView.findViewById(R.id.destination)
-        destinationText!!.setText(destination)
         modeGroup = directionView.findViewById(R.id.mode)
+        configureAutoComplete(originText)
+        configureAutoComplete(destinationText)
+        destinationText!!.setText(destination)
+
 
         val btnOk: Button = directionView.findViewById(R.id.btnOk)
         btnOk.setOnClickListener {
@@ -73,5 +70,16 @@ class DirectionsFragment : Fragment() {
 //        val btnCancel: Button = directionView.findViewById(R.id.btnCancel)
 //        btnCancel.setOnClickListener {}
         return directionView
+    }
+
+    private fun configureAutoComplete(view: AutoCompleteTextView?) {
+        val suggestions = resources.getStringArray(R.array.building_list)
+        val myAdapter = ArrayAdapter(
+            activity!!.applicationContext,
+            android.R.layout.simple_list_item_1,
+            suggestions
+        )
+        view!!.threshold = 1
+        view!!.setAdapter(myAdapter)
     }
 }

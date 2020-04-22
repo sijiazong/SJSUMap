@@ -10,7 +10,7 @@
     android:orientation="vertical"
     tools:context="ui.navigation.DirectionsFragment">
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/origin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         android:inputType="textCapWords"
         android:autofillHints="address"/>
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/destination"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
