@@ -14,6 +14,7 @@ class Helper {
                 }
             }
         }
+
         fun hideSoftKeyboard(activity: Activity) {
             if (activity.currentFocus == null) {
                 return

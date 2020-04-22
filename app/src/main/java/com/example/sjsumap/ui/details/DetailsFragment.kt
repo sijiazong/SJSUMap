@@ -49,7 +49,7 @@ class DetailsFragment : Fragment() {
                 view.findViewById<ImageView>(R.id.image).setImageResource(resourceId)
             }
         }
-        view.findViewById<Button>(R.id.go_button).setOnClickListener{
+        view.findViewById<Button>(R.id.go_button).setOnClickListener {
             val args = Bundle()
             args.putString("destination", buildingName)
             Log.i("details", buildingName!!)

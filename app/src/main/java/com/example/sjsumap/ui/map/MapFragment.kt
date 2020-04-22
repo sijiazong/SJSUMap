@@ -46,44 +46,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var instructions = mutableListOf<String>()
     private var instructionRow = 0
 
-    companion object Polygons {
-        private const val POLYGON_FILL_COLOR = "#80E5A823"
-        private const val POLYGON_STROKE_COLOR = "#BFE5A823"
-        private const val LOCATE_ZOOM = 18.5F
-
-        val polygonsData = HashMap<String, PolygonOptions>()
-        val buildingCenterData = HashMap<String, LatLng>()
-        val serviceMarkers = HashMap<String, MutableList<MarkerOptions>>()
-
-        private fun getPolygonOptions(building: JSONObject): PolygonOptions {
-            val pointsOuter = getBuildingPoints(building, "outer")
-            val pointsInner = getBuildingPoints(building, "inner")
-            val polygonOptions = PolygonOptions()
-            polygonOptions.clickable(true).addAll(pointsOuter)
-            if (pointsInner.isNotEmpty()) {
-                polygonOptions.addHole(pointsInner)
-            }
-            return polygonOptions
-        }
-
-        private fun getBuildingPoints(building: JSONObject, typeTag: String): ArrayList<LatLng> {
-            val points = arrayListOf<LatLng>()
-            val coordinates = building.getJSONArray(typeTag)
-            for (i in 0 until coordinates.length()) {
-                val coordinate = coordinates.getJSONObject(i)
-                val point = createPointFromJson(coordinate)
-                points.add(point)
-            }
-            return points
-        }
-
-        private fun createPointFromJson(coordinate: JSONObject): LatLng {
-            val lat = coordinate.getDouble("lat")
-            val lng = coordinate.getDouble("lng")
-            return LatLng(lat, lng)
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.i("map_info", "onCreate: arguments $arguments")
         super.onCreate(savedInstanceState)
@@ -125,7 +87,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         )
         lv.adapter = myAdapter
         alertDialog.setView(dialogView)
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Back To Map") { dialog, _ -> dialog.dismiss() }
+        alertDialog.setButton(
+            AlertDialog.BUTTON_NEUTRAL,
+            "Back To Map"
+        ) { dialog, _ -> dialog.dismiss() }
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Clear Directions") { dialog, _ ->
             val args = Bundle()
             activity!!.findNavController(R.id.nav_host_fragment).navigate(
@@ -380,6 +345,34 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         Log.i("buildings", polygonsData.keys.toString())
     }
 
+    private fun getPolygonOptions(building: JSONObject): PolygonOptions {
+        val pointsOuter = getBuildingPoints(building, "outer")
+        val pointsInner = getBuildingPoints(building, "inner")
+        val polygonOptions = PolygonOptions()
+        polygonOptions.clickable(true).addAll(pointsOuter)
+        if (pointsInner.isNotEmpty()) {
+            polygonOptions.addHole(pointsInner)
+        }
+        return polygonOptions
+    }
+
+    private fun getBuildingPoints(building: JSONObject, typeTag: String): ArrayList<LatLng> {
+        val points = arrayListOf<LatLng>()
+        val coordinates = building.getJSONArray(typeTag)
+        for (i in 0 until coordinates.length()) {
+            val coordinate = coordinates.getJSONObject(i)
+            val point = createPointFromJson(coordinate)
+            points.add(point)
+        }
+        return points
+    }
+
+    private fun createPointFromJson(coordinate: JSONObject): LatLng {
+        val lat = coordinate.getDouble("lat")
+        val lng = coordinate.getDouble("lng")
+        return LatLng(lat, lng)
+    }
+
     private fun drawPolygon(options: PolygonOptions): Polygon {
         Log.i("map_info", "draw polygons")
         val polygon: Polygon = mMap!!.addPolygon(options)
@@ -423,5 +416,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         marker = mMap!!.addMarker(
             MarkerOptions().position(latLng).title(info_title).snippet(info_snippet)
         )
+    }
+
+    companion object Polygons {
+        private const val POLYGON_FILL_COLOR = "#80E5A823"
+        private const val POLYGON_STROKE_COLOR = "#BFE5A823"
+        private const val LOCATE_ZOOM = 18.5F
+
+        val polygonsData = HashMap<String, PolygonOptions>()
+        val buildingCenterData = HashMap<String, LatLng>()
+        val serviceMarkers = HashMap<String, MutableList<MarkerOptions>>()
     }
 }

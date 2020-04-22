@@ -18,12 +18,6 @@ import org.json.JSONObject
  * A simple [Fragment] subclass.
  */
 class ExploreFragment : Fragment() {
-    companion object {
-        //        var servicesList = mutableListOf<String>()
-        lateinit var servicesList: Array<String>
-        val servicesData = HashMap<String, MutableList<String>>()
-        val servicesIcon = HashMap<String, String>()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,5 +69,11 @@ class ExploreFragment : Fragment() {
                 args
             )
         }
+    }
+
+    companion object {
+        lateinit var servicesList: Array<String>
+        val servicesData = HashMap<String, MutableList<String>>()
+        val servicesIcon = HashMap<String, String>()
     }
 }
