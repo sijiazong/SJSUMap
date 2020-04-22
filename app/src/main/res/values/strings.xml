@@ -27,4 +27,15 @@
     <string name="details_title">Details Title</string>
     <string name="details_services">services</string>
     <string name="menu_details">Building Details</string>
+    <string name="list_service_image">Services Icon</string>
+    <string name="list_service_text">Services</string>
+    <string name="directions_title">Get Directions</string>
+    <string name="hint_origin_input">Origin</string>
+    <string name="hint_dest_input">Destination</string>
+    <string name="mode_walking">Walking</string>
+    <string name="mode_driving">Driving</string>
+    <string name="mode_transit">Transit</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_ok">Go</string>
+    <string name="menu_directions">Directions</string>
 </resources>

@@ -19,10 +19,11 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.sjsumap.ui.navigation.DirectionsDialogFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,10 +36,14 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view: View ->
-            Snackbar.make(view, "Check directions here", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        fab.setOnClickListener {
+            val dialog = DirectionsDialogFragment()
+            dialog.show(supportFragmentManager, "DIRECTIONS_FRAGMENT")
         }
+        setUpNavigation()
+    }
+
+    private fun setUpNavigation() {
         val drawerLayout = activity_main_layout
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
@@ -46,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_map, R.id.nav_explore, R.id.nav_home
+                R.id.nav_map, R.id.nav_explore, R.id.nav_home, R.id.nav_directions
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -78,6 +83,7 @@ class MainActivity : AppCompatActivity() {
         )
         val suggestions = resources.getStringArray(R.array.building_list)
         searchView.suggestionsAdapter = cursorAdapter
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 Log.i("search_info", "inside onQueryTextSubmit query:$query")
@@ -120,7 +126,7 @@ class MainActivity : AppCompatActivity() {
         val args = Bundle()
         args.putString("param1", query)
         findNavController(R.id.nav_host_fragment).navigate(
-            R.id.action_search_location,
+            R.id.action_to_nav_map,
             args
         )
     }

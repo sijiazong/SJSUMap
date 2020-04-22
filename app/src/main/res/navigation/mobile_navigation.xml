@@ -12,12 +12,6 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.sjsumap.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
         android:id="@+id/nav_map"
         android:name="com.example.sjsumap.ui.map.MapFragment"
         android:label="@string/menu_map">
@@ -36,7 +30,7 @@
         tools:layout="@layout/fragment_explore" />
 
     <action
-        android:id="@+id/action_search_location"
+        android:id="@+id/action_to_nav_map"
         app:destination="@id/nav_map">
         <argument
             android:name="param1"
@@ -50,7 +44,16 @@
         <argument
             android:name="building_name"
             app:argType="string" />
+        <action
+            android:id="@+id/action_nav_details_to_directionsDialogFragment"
+            app:destination="@id/nav_directions" />
     </fragment>
+    <dialog
+        android:id="@+id/nav_directions"
+        android:name="com.example.sjsumap.ui.navigation.DirectionsDialogFragment"
+        android:label="DirectionsDialogFragment" >
+        <argument android:name="destination" />
+    </dialog>
 
 
 </navigation>

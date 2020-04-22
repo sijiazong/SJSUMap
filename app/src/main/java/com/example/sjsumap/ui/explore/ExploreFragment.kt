@@ -71,7 +71,7 @@ class ExploreFragment : Fragment() {
             val args = Bundle()
             args.putString("param1", "Service: $selectedItem")
             activity!!.findNavController(R.id.nav_host_fragment).navigate(
-                R.id.action_search_location,
+                R.id.action_to_nav_map,
                 args
             )
         }

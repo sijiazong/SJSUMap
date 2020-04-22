@@ -20,15 +20,10 @@
             android:icon="@drawable/ic_explore"
             android:title="@string/menu_explore" />
 
-        <!--        <item-->
-        <!--            android:id="@+id/nav_search"-->
-        <!--            android:icon="@drawable/ic_search"-->
-        <!--            android:title="@string/menu_search"/>-->
-
-        <!--        <item-->
-        <!--            android:id="@+id/nav_gallery"-->
-        <!--            android:icon="@drawable/ic_menu_gallery"-->
-        <!--            android:title="@string/menu_gallery" />-->
+        <item
+            android:id="@+id/nav_directions"
+            android:icon="@drawable/ic_directions"
+            android:title="@string/menu_directions"/>
 
     </group>
 </menu>

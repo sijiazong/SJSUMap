@@ -125,7 +125,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 //                Directions: Davidson College of Engineering & South Parking Garage
                 val origin = params[0]
                 val destination = params[1]
-                val mode = "walking"
+                val mode = params[2]
 //        walking, driving, transit
                 renderDirections(origin, destination, mode)
 //        setInfoWindow(mMap!!)
