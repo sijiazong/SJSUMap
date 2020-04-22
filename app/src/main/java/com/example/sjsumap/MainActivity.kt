@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.provider.BaseColumns
 import android.util.Log
 import android.view.Menu
-import android.view.View
 import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -19,7 +18,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.sjsumap.ui.navigation.DirectionsDialogFragment
+import com.example.sjsumap.ui.navigation.DirectionsFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -37,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener {
-            val dialog = DirectionsDialogFragment()
+            val dialog = DirectionsFragment()
             dialog.show(supportFragmentManager, "DIRECTIONS_FRAGMENT")
         }
         setUpNavigation()

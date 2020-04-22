@@ -1,6 +1,9 @@
 package com.example.sjsumap.ui.navigation
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,10 +13,38 @@ import androidx.navigation.findNavController
 import com.example.sjsumap.R
 
 
-class DirectionsDialogFragment : DialogFragment() {
+class DirectionsFragment : DialogFragment() {
     var originText: EditText? = null
     var destinationText: EditText? = null
     var modeGroup: RadioGroup? = null
+//    private val TAG = "AUC_CUSTOM"
+
+//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+//        val builder = AlertDialog.Builder(activity)
+//
+//        // Create the custom layout using the LayoutInflater class
+//        val inflater = activity!!.layoutInflater
+//        val v: View = inflater.inflate(R.layout.fragment_directions, null)
+//
+//        // Build the dialog
+//        builder.apply {
+//            setPositiveButton("OK") { dialog, id -> Log.i(TAG, "OK Clicked") }
+//            setNegativeButton("Cancel") { dialog, id -> Log.i(TAG, "Cancel clicked") }
+//            setView(v)
+//        }
+//        // Create the AlertDialog
+//        return builder.create()
+//    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NO_TITLE, R.style.AppTheme_AppCompat_Dialog_Alert_NoFloating)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

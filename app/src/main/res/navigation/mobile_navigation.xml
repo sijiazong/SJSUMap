@@ -48,10 +48,12 @@
             android:id="@+id/action_nav_details_to_directionsDialogFragment"
             app:destination="@id/nav_directions" />
     </fragment>
+
     <dialog
         android:id="@+id/nav_directions"
-        android:name="com.example.sjsumap.ui.navigation.DirectionsDialogFragment"
-        android:label="DirectionsDialogFragment" >
+        android:name="com.example.sjsumap.ui.navigation.DirectionsFragment"
+        android:label="DirectionsDialogFragment"
+        tools:layout="@layout/fragment_directions">
         <argument android:name="destination" />
     </dialog>
 
