@@ -10,13 +10,6 @@
     android:orientation="vertical"
     tools:context="ui.navigation.DirectionsFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/directions_title"
-        android:textStyle="bold"
-        android:textSize="24sp" />
-
     <EditText
         android:id="@+id/origin"
         android:layout_width="match_parent"
@@ -39,7 +32,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/mode"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp">
 
         <RadioButton
             android:id="@+id/walking"
@@ -61,6 +55,8 @@
             android:text="@string/mode_transit" />
     </RadioGroup>
 
+    <View style="@style/Divider"/>
+
     <LinearLayout
         android:id="@+id/button_container"
         android:layout_width="match_parent"
@@ -74,14 +70,20 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_cancel" />
+            android:text="@string/button_cancel"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"/>
 
         <Button
             android:id="@+id/btnOk"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_ok" />
+            android:text="@string/button_ok"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccentYellow" />
 
     </LinearLayout>
 

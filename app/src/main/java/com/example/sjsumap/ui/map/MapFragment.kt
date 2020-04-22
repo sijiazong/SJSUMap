@@ -24,6 +24,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.maps.android.PolyUtil
 import org.json.JSONArray
 import org.json.JSONObject
@@ -92,6 +93,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         Log.i("map_info", "mMap: ${mMap.toString()}")
         initMap(this)
         Log.i("map_info", "onCreateView: query: $query")
+        val fab: FloatingActionButton = mapView.findViewById(R.id.fab)
+        fab.setOnClickListener {
+            val args = Bundle()
+            activity!!.findNavController(R.id.nav_host_fragment)
+                .navigate(R.id.action_nav_map_to_nav_directions, args)
+        }
         return mapView
     }
 

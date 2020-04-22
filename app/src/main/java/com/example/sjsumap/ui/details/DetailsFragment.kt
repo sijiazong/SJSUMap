@@ -1,12 +1,15 @@
 package com.example.sjsumap.ui.details
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.sjsumap.R
 import com.example.sjsumap.utilities.FileHelper
 import org.json.JSONArray
@@ -45,6 +48,13 @@ class DetailsFragment : Fragment() {
                     resources.getIdentifier(imageName, "drawable", activity!!.packageName)
                 view.findViewById<ImageView>(R.id.image).setImageResource(resourceId)
             }
+        }
+        view.findViewById<Button>(R.id.go_button).setOnClickListener{
+            val args = Bundle()
+            args.putString("destination", buildingName)
+            Log.i("details", buildingName!!)
+            activity!!.findNavController(R.id.nav_host_fragment)
+                .navigate(R.id.action_nav_details_to_nav_directions, args)
         }
         return view
     }

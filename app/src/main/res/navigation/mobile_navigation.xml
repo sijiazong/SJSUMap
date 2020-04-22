@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_nav_map_to_detailsFragment"
             app:destination="@id/nav_details" />
+        <action
+            android:id="@+id/action_nav_map_to_nav_directions"
+            app:destination="@id/nav_directions" />
     </fragment>
 
     <fragment
@@ -45,17 +48,18 @@
             android:name="building_name"
             app:argType="string" />
         <action
-            android:id="@+id/action_nav_details_to_directionsDialogFragment"
+            android:id="@+id/action_nav_details_to_nav_directions"
             app:destination="@id/nav_directions" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_directions"
         android:name="com.example.sjsumap.ui.navigation.DirectionsFragment"
-        android:label="DirectionsDialogFragment"
+        android:label="Directions"
         tools:layout="@layout/fragment_directions">
-        <argument android:name="destination" />
+        <argument
+            android:name="destination"
+            app:argType="string" />
     </fragment>
-
 
 </navigation>

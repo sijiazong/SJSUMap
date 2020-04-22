@@ -16,11 +16,8 @@
 
     <string name="title_activity_maps">Map</string>
     <string name="content_main_text">Main Content Text</string>
-    <string name="explore_fragment_text">hello explore fragment</string>
-    <string name="fragment_explore_text">fragment_explore</string>
-    <string name="map_fragment_start_text">start_main</string>
 
-    <string name="search_hint">Search places</string>
+    <string name="search_hint">Search here</string>
     <string name="info_image_title">Logo</string>
     <string name="details_image_desc">building image</string>
     <string name="details_description">Building description</string>
@@ -30,12 +27,13 @@
     <string name="list_service_image">Services Icon</string>
     <string name="list_service_text">Services</string>
     <string name="directions_title">Get Directions</string>
-    <string name="hint_origin_input">Origin</string>
-    <string name="hint_dest_input">Destination</string>
+    <string name="hint_origin_input">Please enter origin here</string>
+    <string name="hint_dest_input">Please enter destination here</string>
     <string name="mode_walking">Walking</string>
     <string name="mode_driving">Driving</string>
     <string name="mode_transit">Transit</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_ok">Go</string>
     <string name="menu_directions">Directions</string>
+    <string name="directions_go_button">Go to this location</string>
 </resources>

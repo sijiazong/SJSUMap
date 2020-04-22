@@ -34,10 +34,10 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener {
-            findNavController(R.id.nav_host_fragment).navigate(R.id.nav_directions)
-        }
+//        val fab: FloatingActionButton = findViewById(R.id.fab)
+//        fab.setOnClickListener {
+//            findNavController(R.id.nav_host_fragment).navigate(R.id.nav_directions)
+//        }
         setUpNavigation()
     }
 
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_map, R.id.nav_explore, R.id.nav_home, R.id.nav_directions
+                R.id.nav_map, R.id.nav_explore, R.id.nav_home
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
