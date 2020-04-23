@@ -76,7 +76,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,
         initMap(this)
         Log.i("map_info", "onCreateView: query: $type")
         Log.i("map_info", "onCreateView: query: $query")
-        val fab: FloatingActionButton = mapView.findViewById(R.id.directions)
+        val fab: FloatingActionButton = mapView.findViewById(R.id.fab_directions)
         fab.setOnClickListener {
             if (isRouteVisible) {
                 showTextInstructions(inflater, container)
