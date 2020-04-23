@@ -32,10 +32,6 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-//        val fab: FloatingActionButton = findViewById(R.id.fab)
-//        fab.setOnClickListener {
-//            findNavController(R.id.nav_host_fragment).navigate(R.id.nav_directions)
-//        }
         setUpNavigation()
     }
 

@@ -1,6 +1,8 @@
 package com.example.sjsumap.ui.map
 
+import android.Manifest
 import android.app.AlertDialog
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Geocoder
 import android.net.Uri
@@ -11,8 +13,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
-import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -23,6 +26,7 @@ import com.android.volley.toolbox.Volley
 import com.example.sjsumap.R
 import com.example.sjsumap.ui.explore.ExploreFragment
 import com.example.sjsumap.utilities.Helper
+import com.example.sjsumap.utilities.PermissionUtils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -37,7 +41,12 @@ import org.json.JSONObject
  * A simple [Fragment] subclass.
  */
 
-class MapFragment : Fragment(), OnMapReadyCallback {
+//OnMyLocationClickListener
+class MapFragment : Fragment(), OnMapReadyCallback,
+    ActivityCompat.OnRequestPermissionsResultCallback {
+
+    private val LOCATION_PERMISSION_REQUEST_CODE = 1
+    private var mPermissionDenied = false
 
     private var query: String? = null
     private var marker: Marker? = null
@@ -62,7 +71,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         Log.i("map_info", "mMap: ${mMap.toString()}")
         initMap(this)
         Log.i("map_info", "onCreateView: query: $query")
-        val fab: FloatingActionButton = mapView.findViewById(R.id.fab)
+        val fab: FloatingActionButton = mapView.findViewById(R.id.directions)
         fab.setOnClickListener {
             if (isRouteVisible) {
                 showTextInstructions(inflater, container)
@@ -145,6 +154,31 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 Log.i("map_info", "text: $query")
             }
         }
+        enableMyLocation()
+    }
+
+    private fun enableMyLocation() {
+        // [START maps_check_location_permission]
+        if (ContextCompat.checkSelfPermission(
+                activity!!.applicationContext,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            if (mMap != null) {
+                mMap!!.isMyLocationEnabled = true
+                mMap!!.uiSettings.isMyLocationButtonEnabled = true
+            }
+        } else {
+            if (!hasRequestedPermission) {
+//               Toast.makeText(activity, "My location is not enabled currently", Toast.LENGTH_LONG).show()
+                requestPermissions(
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    LOCATION_PERMISSION_REQUEST_CODE
+                )
+                hasRequestedPermission = true
+            }
+        }
     }
 
 
@@ -161,7 +195,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 onDirectionsDataReady(response)
             },
             Response.ErrorListener { error ->
-                Log.i("url", "Request Error!")
+                Log.i("url", "Request Error: $error")
             }
         )
         queue.add(jsonObjectRequest)
@@ -304,30 +338,30 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun setOnMarkerClickListener(map: GoogleMap) {
-        map.setOnMarkerClickListener {
-            if (it != null) {
-                it.showInfoWindow()
-                Toast.makeText(activity, "Marker ${it.title}", Toast.LENGTH_LONG).show()
-            }
-            true
-        }
-    }
+//    private fun setOnMarkerClickListener(map: GoogleMap) {
+//        map.setOnMarkerClickListener {
+//            if (it != null) {
+//                it.showInfoWindow()
+//                Toast.makeText(activity, "Marker ${it.title}", Toast.LENGTH_LONG).show()
+//            }
+//            true
+//        }
+//    }
 
-    private fun setInfoWindow(map: GoogleMap) {
-        map.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
-            override fun getInfoContents(mk: Marker?): View {
-                val infoWindow = layoutInflater.inflate(R.layout.info_window, null)
-                infoWindow.findViewById<TextView>(R.id.info_title).text = mk?.title
-                infoWindow.findViewById<TextView>(R.id.info_description).text = mk?.snippet
-                return infoWindow
-            }
-
-            override fun getInfoWindow(p0: Marker?): View? {
-                return null
-            }
-        })
-    }
+//    private fun setInfoWindow(map: GoogleMap) {
+//        map.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
+//            override fun getInfoContents(mk: Marker?): View {
+//                val infoWindow = layoutInflater.inflate(R.layout.info_window, null)
+//                infoWindow.findViewById<TextView>(R.id.info_title).text = mk?.title
+//                infoWindow.findViewById<TextView>(R.id.info_description).text = mk?.snippet
+//                return infoWindow
+//            }
+//
+//            override fun getInfoWindow(p0: Marker?): View? {
+//                return null
+//            }
+//        })
+//    }
 
     private fun getPolygonData() {
         Log.i("map_info", "get polygons data")
@@ -418,13 +452,57 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         )
     }
 
+
+    /**
+     * Code to get user permission to access current location
+     * Source: Google Maps SDK for Android Code samples: MyLocationDemoActivity
+     * https://github.com/googlemaps/android-samples/blob/master/ApiDemos/java/app/src/main/java/com/example/mapdemo/MyLocationDemoActivity.java
+     * **/
+
+//    override fun onMyLocationButtonClick(): Boolean {
+//        Toast.makeText(activity, "onMyLocationButtonClick\n", Toast.LENGTH_LONG).show()
+//        return false
+//    }
+//
+//    override fun onMyLocationClick(p0: Location) {
+//        Toast.makeText(activity, "onMyLocationClick", Toast.LENGTH_SHORT).show()
+//    }
+
+    // [START maps_check_location_permission_result]
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
+            return
+        }
+        if (PermissionUtils.isPermissionGranted(
+                permissions,
+                grantResults,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        ) {
+            // Enable the my location layer if the permission has been granted.
+            enableMyLocation()
+        } else {
+            // Permission was denied. Display an error message
+            // [START_EXCLUDE]
+            // Display the missing permission error dialog when the fragments resume.
+            mPermissionDenied = true
+            // [END_EXCLUDE]
+        }
+    }
+
+    // [END maps_check_location_permission_result]
     companion object Polygons {
         private const val POLYGON_FILL_COLOR = "#80E5A823"
         private const val POLYGON_STROKE_COLOR = "#BFE5A823"
         private const val LOCATE_ZOOM = 18.5F
 
-        val polygonsData = HashMap<String, PolygonOptions>()
-        val buildingCenterData = HashMap<String, LatLng>()
-        val serviceMarkers = HashMap<String, MutableList<MarkerOptions>>()
+        private val polygonsData = HashMap<String, PolygonOptions>()
+        private val buildingCenterData = HashMap<String, LatLng>()
+        private val serviceMarkers = HashMap<String, MutableList<MarkerOptions>>()
+        private var hasRequestedPermission: Boolean = false
     }
 }
