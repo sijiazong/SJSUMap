@@ -16,7 +16,9 @@
         android:layout_height="wrap_content"
         android:hint="@string/hint_origin_input"
         android:inputType="textCapWords"
-        android:autofillHints="address" />
+        android:autofillHints="address"
+        android:drawableLeft="@drawable/ic_place_blue"
+        android:drawableStart="@drawable/ic_place_blue" />
 
     <AutoCompleteTextView
         android:id="@+id/destination"
@@ -24,7 +26,9 @@
         android:layout_height="wrap_content"
         android:hint="@string/hint_dest_input"
         android:inputType="textCapWords"
-        android:autofillHints="address" />
+        android:autofillHints="address"
+        android:drawableLeft="@drawable/ic_place_red"
+        android:drawableStart="@drawable/ic_place_red" />
 
 
     <RadioGroup

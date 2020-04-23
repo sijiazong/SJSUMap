@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SJSU Interactive Campus Map</string>
+    <string name="app_name">SJSU Campus Map</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">San Jose State University</string>
@@ -7,7 +7,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="search">Search</string>
 
-    <string name="menu_home">SJSU Home</string>
+    <string name="menu_home">SJSU Official Website</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_explore">Explore Services</string>
