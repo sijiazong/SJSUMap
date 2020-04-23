@@ -16,7 +16,10 @@
         android:name="com.example.sjsumap.ui.map.MapFragment"
         android:label="@string/menu_map">
         <argument
-            android:name="param1"
+            android:name="type"
+            app:argType="string" />
+        <argument
+            android:name="query"
             app:argType="string" />
         <action
             android:id="@+id/action_nav_map_to_detailsFragment"
@@ -36,7 +39,10 @@
         android:id="@+id/action_to_nav_map"
         app:destination="@id/nav_map">
         <argument
-            android:name="param1"
+            android:name="type"
+            app:argType="string" />
+        <argument
+            android:name="query"
             app:argType="string" />
     </action>
 

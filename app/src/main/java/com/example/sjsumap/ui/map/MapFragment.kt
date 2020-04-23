@@ -48,7 +48,10 @@ class MapFragment : Fragment(), OnMapReadyCallback,
     private val LOCATION_PERMISSION_REQUEST_CODE = 1
     private var mPermissionDenied = false
 
+    //variable to determine fragment handle
     private var query: String? = null
+    private var type: String? = null
+
     private var marker: Marker? = null
     private var mMap: GoogleMap? = null
     private var isRouteVisible: Boolean = false
@@ -59,7 +62,8 @@ class MapFragment : Fragment(), OnMapReadyCallback,
         Log.i("map_info", "onCreate: arguments $arguments")
         super.onCreate(savedInstanceState)
         arguments?.let {
-            query = it.getString("param1")
+            type = it.getString("type")
+            query = it.getString("query")
         }
     }
 
@@ -70,6 +74,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,
         val mapView = inflater.inflate(R.layout.fragment_map, container, false)
         Log.i("map_info", "mMap: ${mMap.toString()}")
         initMap(this)
+        Log.i("map_info", "onCreateView: query: $type")
         Log.i("map_info", "onCreateView: query: $query")
         val fab: FloatingActionButton = mapView.findViewById(R.id.directions)
         fab.setOnClickListener {
@@ -126,32 +131,41 @@ class MapFragment : Fragment(), OnMapReadyCallback,
         }
         addPolygonsToMap()
         query?.let {
-            Log.i("service_info", query.toString())
-            if (query!!.startsWith("Service:", ignoreCase = true)) {
-                val serviceType = query!!.replace("Service:", "").trim()
-                if (serviceType in ExploreFragment.servicesList) {
-                    addServiceMarker(serviceType, mMap!!)
-                } else {
-                    Toast.makeText(activity, "Error: Can not find service!", Toast.LENGTH_LONG)
-                        .show()
+//            Log.i("service_info", query.toString())
+            when (type) {
+                "Service" -> {
+                    val serviceType = query!!.trim()
+                    if (serviceType in ExploreFragment.servicesList) {
+                        addServiceMarker(serviceType, mMap!!)
+                    } else {
+                        Toast.makeText(activity, "Error: Can not find service!", Toast.LENGTH_LONG)
+                            .show()
+                    }
                 }
-            } else if (query!!.startsWith("Directions:", ignoreCase = true)) {
-                val params = query!!.replace("Directions:", "").trim().split(" & ")
-//                Directions: Davidson College of Engineering & 47236 Cavanaugh Cmn, Fremont, CA
-//                Directions: Davidson College of Engineering & South Parking Garage
-                val origin = params[0]
-                val destination = params[1]
-                val mode = params[2]
-//        walking, driving, transit
-                renderDirections(origin, destination, mode)
-//        setInfoWindow(mMap!!)
-//        setOnMarkerClickListener(mMap!!)
-            } else if (resources.getStringArray(R.array.building_list).contains(query)) {
-                val center = buildingCenterData[query!!]!!
-                moveAndMarkLocation(center, query, "Campus Building")
-            } else {
-                geoLocate(query as String)
-                Log.i("map_info", "text: $query")
+                "Directions" -> {
+                    val params = query!!.trim().split(" & ")
+                    //                Directions: Davidson College of Engineering & 47236 Cavanaugh Cmn, Fremont, CA
+                    //                Directions: Davidson College of Engineering & South Parking Garage
+                    val origin = params[0]
+                    val destination = params[1]
+                    val mode = params[2]
+                    //        walking, driving, transit
+                    renderDirections(origin, destination, mode)
+                    //        setInfoWindow(mMap!!)
+                    //        setOnMarkerClickListener(mMap!!)
+                }
+                "Search" -> {
+                    if (resources.getStringArray(R.array.building_list).contains(query)) {
+                        val center = buildingCenterData[query!!]!!
+                        moveAndMarkLocation(center, query, "Campus Building")
+                    } else {
+                        geoLocate(query as String)
+                        Log.i("map_info", "text: $query")
+                    }
+                }
+                else -> {
+                    Log.i("map_info", "Invalid request")
+                }
             }
         }
         enableMyLocation()
@@ -253,7 +267,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,
                         HtmlCompat.FROM_HTML_MODE_COMPACT
                     )
                     instructionRow += 1
-                    instructions.add("$instructionRow. ${htmlContent.toString()}")
+                    instructions.add("$instructionRow. $htmlContent")
                     val polylinePoints =
                         steps.getJSONObject(j).getJSONObject("polyline").getString("points")
                     val decodedPoints: List<LatLng> = PolyUtil.decode(polylinePoints)
@@ -428,9 +442,9 @@ class MapFragment : Fragment(), OnMapReadyCallback,
         }
     }
 
-    private fun geoLocate(param1: String) {
+    private fun geoLocate(query: String) {
         val gc = Geocoder(activity)
-        val addresses = gc.getFromLocationName(param1, 1)
+        val addresses = gc.getFromLocationName(query, 1)
         if (addresses.isNotEmpty()) {
             val add = addresses[0]
             Log.i("map_info", "geolocate: $add")
@@ -503,6 +517,6 @@ class MapFragment : Fragment(), OnMapReadyCallback,
         private val polygonsData = HashMap<String, PolygonOptions>()
         private val buildingCenterData = HashMap<String, LatLng>()
         private val serviceMarkers = HashMap<String, MutableList<MarkerOptions>>()
-        private var hasRequestedPermission: Boolean = false
+        private var hasRequestedPermission = false
     }
 }

@@ -59,7 +59,8 @@ class DirectionsFragment : Fragment() {
 //            Directions: Davidson College of Engineering & North Parking Garage & walking
                 Log.i("directions_info", "$origin, $destination, $mode")
                 val args = Bundle()
-                args.putString("param1", "Directions: $origin & $destination & $mode")
+                args.putString("type", "Directions")
+                args.putString("query", "$origin & $destination & $mode")
                 activity!!.findNavController(R.id.nav_host_fragment).navigate(
                     R.id.action_to_nav_map,
                     args

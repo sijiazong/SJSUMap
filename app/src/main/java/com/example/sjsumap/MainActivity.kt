@@ -116,7 +116,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun navigateToLocation(query: String?) {
         val args = Bundle()
-        args.putString("param1", query)
+        args.putString("type", "Search")
+        args.putString("query", query)
         findNavController(R.id.nav_host_fragment).navigate(
             R.id.action_to_nav_map,
             args

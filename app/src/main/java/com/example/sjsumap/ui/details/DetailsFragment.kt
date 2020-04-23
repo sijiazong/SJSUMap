@@ -15,7 +15,7 @@ import com.example.sjsumap.utilities.Helper
 import org.json.JSONArray
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "building_name"
+private const val ARG_BUILDING_NAME = "building_name"
 
 class DetailsFragment : Fragment() {
     private var buildingName: String? = null
@@ -23,7 +23,7 @@ class DetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            buildingName = it.getString(ARG_PARAM1)
+            buildingName = it.getString(ARG_BUILDING_NAME)
         }
     }
 
@@ -65,7 +65,7 @@ class DetailsFragment : Fragment() {
         fun newInstance(param1: String) =
             DetailsFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
+                    putString(ARG_BUILDING_NAME, param1)
                 }
             }
     }
