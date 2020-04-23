@@ -509,7 +509,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,
     }
 
     // [END maps_check_location_permission_result]
-    companion object Polygons {
+    companion object {
         private const val POLYGON_FILL_COLOR = "#80E5A823"
         private const val POLYGON_STROKE_COLOR = "#BFE5A823"
         private const val LOCATE_ZOOM = 18.5F
@@ -517,6 +517,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,
         private val polygonsData = HashMap<String, PolygonOptions>()
         private val buildingCenterData = HashMap<String, LatLng>()
         private val serviceMarkers = HashMap<String, MutableList<MarkerOptions>>()
+
         private var hasRequestedPermission = false
     }
 }

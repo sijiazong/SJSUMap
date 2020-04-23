@@ -1,50 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
     tools:context="ui.navigation.DirectionsFragment">
+
 
     <AutoCompleteTextView
         android:id="@+id/origin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autofillHints="address"
+        android:drawableStart="@drawable/ic_place_blue"
+        android:drawableLeft="@drawable/ic_place_blue"
         android:hint="@string/hint_origin_input"
         android:inputType="textCapWords"
-        android:autofillHints="address"
-        android:drawableLeft="@drawable/ic_place_blue"
-        android:drawableStart="@drawable/ic_place_blue" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/button_my_location"
+        android:contentDescription="@string/my_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_my_location_blue"
+        android:padding="@dimen/activity_horizontal_margin"
+        app:layout_constraintBottom_toBottomOf="@+id/origin"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <AutoCompleteTextView
         android:id="@+id/destination"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autofillHints="address"
+        android:drawableStart="@drawable/ic_place_red"
+        android:drawableLeft="@drawable/ic_place_red"
         android:hint="@string/hint_dest_input"
         android:inputType="textCapWords"
-        android:autofillHints="address"
-        android:drawableLeft="@drawable/ic_place_red"
-        android:drawableStart="@drawable/ic_place_red" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/origin" />
 
     <RadioGroup
+        android:id="@+id/mode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/mode"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10dp">
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/destination">
 
         <RadioButton
             android:id="@+id/walking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/mode_walking"
-            android:checked="true" />
+            android:checked="true"
+            android:text="@string/mode_walking" />
 
         <RadioButton
             android:id="@+id/driving"
@@ -59,15 +78,15 @@
             android:text="@string/mode_transit" />
     </RadioGroup>
 
-    <View style="@style/Divider" />
-
     <LinearLayout
         android:id="@+id/button_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:gravity="end"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mode">
 
         <!--        <Button-->
         <!--            android:id="@+id/btnCancel"-->
@@ -84,12 +103,13 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_navigation"
+            android:drawableEnd="@drawable/ic_navigation"
             android:text="@string/button_ok"
-            android:textSize="20sp"
-            android:textStyle="bold"
             android:textColor="@color/colorPrimary"
-            android:drawableRight="@drawable/ic_navigation" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

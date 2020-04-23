@@ -1,5 +1,6 @@
 package com.example.sjsumap.ui.navigation
 
+import android.location.Location
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -11,6 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.sjsumap.R
 import com.example.sjsumap.utilities.Helper
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 
 private const val ARG_DEST = "destination"
 
@@ -19,6 +22,8 @@ class DirectionsFragment : Fragment() {
     private var destinationText: AutoCompleteTextView? = null
     private var modeGroup: RadioGroup? = null
     private var destination: String? = null
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var currentLocation: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.i("directions_info", "onCreate: arguments $arguments")
@@ -26,6 +31,7 @@ class DirectionsFragment : Fragment() {
         arguments?.let {
             destination = it.getString(ARG_DEST)
         }
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
     }
 
     override fun onCreateView(
@@ -39,12 +45,15 @@ class DirectionsFragment : Fragment() {
         configureAutoComplete(originText)
         configureAutoComplete(destinationText)
         destinationText!!.setText(destination)
-
+        val myLocationButton = directionView.findViewById<ImageButton>(R.id.button_my_location)
+        myLocationButton.setOnClickListener {
+            updateOriginToCurrentLocation(originText!!)
+        }
 
         val btnOk: Button = directionView.findViewById(R.id.btnOk)
         btnOk.setOnClickListener {
-            val origin = originText!!.text
-            val destination = destinationText!!.text
+            var origin = originText!!.text.toString()
+            val destination = destinationText!!.text.toString()
             if (TextUtils.isEmpty(origin) || TextUtils.isEmpty(destination)) {
                 if (TextUtils.isEmpty(origin)) {
                     originText!!.error = "Origin is required!"
@@ -53,6 +62,10 @@ class DirectionsFragment : Fragment() {
                     destinationText!!.error = "Destination is required!"
                 }
             } else {
+                //update origin to real location lat lng stored in currentLocation
+                if (origin == "My Location" && currentLocation != null) {
+                    origin = currentLocation!!
+                }
                 val selectedId = modeGroup!!.checkedRadioButtonId
                 val mode = directionView.findViewById<RadioButton>(selectedId).text.toString()
                     .toLowerCase()
@@ -81,6 +94,15 @@ class DirectionsFragment : Fragment() {
             suggestions
         )
         view!!.threshold = 1
-        view!!.setAdapter(myAdapter)
+        view.setAdapter(myAdapter)
+    }
+
+    private fun updateOriginToCurrentLocation(view: AutoCompleteTextView) {
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location: Location? ->
+                currentLocation = "${location!!.latitude}, ${location.longitude}"
+                view.setText("My Location")
+                Log.i("location", "Successfully get currentLocation: $currentLocation")
+            }
     }
 }
