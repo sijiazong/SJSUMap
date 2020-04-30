@@ -11,8 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.sjsumap.R
-import com.example.sjsumap.utilities.Helper
-import org.json.JSONArray
+import com.example.sjsumap.ui.map.MapFragment
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_BUILDING_NAME = "building_name"
@@ -34,8 +33,9 @@ class DetailsFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_details, container, false)
         view.findViewById<TextView>(R.id.title).text = buildingName
-        val text = Helper.getTextFromResources(activity!!.applicationContext, R.raw.buildings)
-        val buildings = JSONArray(text)
+//        val text = Helper.getTextFromResources(activity!!.applicationContext, R.raw.buildings)
+//        val buildings = JSONArray(text)
+        val buildings = MapFragment.polygonJson
         for (i in 0 until buildings.length()) {
             val building = buildings.getJSONObject(i)
             val name = building.getString("name")

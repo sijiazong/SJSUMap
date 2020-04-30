@@ -21,11 +21,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.android.volley.Request
 import com.android.volley.Response
+import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.sjsumap.R
 import com.example.sjsumap.ui.explore.ExploreFragment
-import com.example.sjsumap.utilities.Helper
 import com.example.sjsumap.utilities.PermissionUtils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -127,9 +127,11 @@ class MapFragment : Fragment(), OnMapReadyCallback,
         Log.i("map_info", "onMapReady: initiate map call back")
         mMap = googleMap
         if (polygonsData.isEmpty()) {
-            getPolygonData()
+//            getPolygonData()
+            requestPolygonData()
+        } else {
+            addPolygonsToMap()
         }
-        addPolygonsToMap()
         query?.let {
 //            Log.i("service_info", query.toString())
             when (type) {
@@ -377,10 +379,26 @@ class MapFragment : Fragment(), OnMapReadyCallback,
 //        })
 //    }
 
-    private fun getPolygonData() {
+    private fun requestPolygonData() {
+        val url = "http://192.168.1.6:4000/polygons_mobile"
+        Log.i("request url", url)
+        val queue = Volley.newRequestQueue(activity!!.applicationContext)
+        val jsonArrayRequest = JsonArrayRequest(
+            Request.Method.GET, url, null,
+            Response.Listener { response ->
+                onPolygonsDataReady(response)
+            },
+            Response.ErrorListener { error ->
+                Log.i("url", "Request Error: $error")
+            }
+        )
+        queue.add(jsonArrayRequest)
+    }
+
+    private fun onPolygonsDataReady(buildings: JSONArray) {
         Log.i("map_info", "get polygons data")
-        val text = Helper.getTextFromResources(activity!!.applicationContext, R.raw.buildings)
-        val buildings = JSONArray(text)
+        Log.i("map_info", buildings.toString())
+        polygonJson = buildings
         for (i in 0 until buildings.length()) {
             Log.i("map_info", "get data from json: building $i")
             val building = buildings.getJSONObject(i)
@@ -391,7 +409,25 @@ class MapFragment : Fragment(), OnMapReadyCallback,
             buildingCenterData[buildingName] = createPointFromJson(buildingCenter)
         }
         Log.i("buildings", polygonsData.keys.toString())
+        addPolygonsToMap()
     }
+
+
+//    private fun getPolygonData() {
+//        Log.i("map_info", "get polygons data")
+//        val text = Helper.getTextFromResources(activity!!.applicationContext, R.raw.buildings)
+//        val buildings = JSONArray(text)
+//        for (i in 0 until buildings.length()) {
+//            Log.i("map_info", "get data from json: building $i")
+//            val building = buildings.getJSONObject(i)
+//            val buildingName = building.getString("name")
+//            val polygonOptions = getPolygonOptions(building)
+//            polygonsData[buildingName] = polygonOptions
+//            val buildingCenter = building.getJSONObject("center")
+//            buildingCenterData[buildingName] = createPointFromJson(buildingCenter)
+//        }
+//        Log.i("buildings", polygonsData.keys.toString())
+//    }
 
     private fun getPolygonOptions(building: JSONObject): PolygonOptions {
         val pointsOuter = getBuildingPoints(building, "outer")
@@ -514,6 +550,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,
         private const val POLYGON_STROKE_COLOR = "#BFE5A823"
         private const val LOCATE_ZOOM = 18.5F
 
+        var polygonJson = JSONArray()
         private val polygonsData = HashMap<String, PolygonOptions>()
         private val buildingCenterData = HashMap<String, LatLng>()
         private val serviceMarkers = HashMap<String, MutableList<MarkerOptions>>()
