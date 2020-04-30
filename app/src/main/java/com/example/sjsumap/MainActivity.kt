@@ -18,8 +18,13 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.Volley
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import org.json.JSONArray
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,9 +34,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        if (servicesJson.isNull(0)) {
+            requestServicesData()
+        }
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
         setUpNavigation()
     }
 
@@ -127,5 +134,25 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    private fun requestServicesData() {
+        val url = "http://192.168.1.6:4000/services_mobile"
+        Log.i("request url", url)
+        val queue = Volley.newRequestQueue(applicationContext)
+        val jsonArrayRequest = JsonArrayRequest(
+            Request.Method.GET, url, null,
+            Response.Listener { response ->
+                servicesJson = response
+            },
+            Response.ErrorListener { error ->
+                Log.i("url", "Request Error: $error")
+            }
+        )
+        queue.add(jsonArrayRequest)
+    }
+
+    companion object {
+        var servicesJson = JSONArray()
     }
 }

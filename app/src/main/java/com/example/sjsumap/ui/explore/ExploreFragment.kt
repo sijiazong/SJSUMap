@@ -9,9 +9,8 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.example.sjsumap.MainActivity
 import com.example.sjsumap.R
-import com.example.sjsumap.utilities.Helper
-import org.json.JSONObject
 
 
 /**
@@ -39,8 +38,9 @@ class ExploreFragment : Fragment() {
     }
 
     private fun getServiceData() {
-        val text = Helper.getTextFromResources(activity!!.applicationContext, R.raw.services)
-        val servicesJson = JSONObject(text)
+//        val text = Helper.getTextFromResources(activity!!.applicationContext, R.raw.services)
+//        val servicesJson = JSONObject(text)
+        val servicesJson = MainActivity.servicesJson.getJSONObject(0)
 //        servicesList = servicesJson.keys().asSequence().toMutableList()
         servicesList = resources.getStringArray(R.array.service_list)
         for (service in servicesList) {
