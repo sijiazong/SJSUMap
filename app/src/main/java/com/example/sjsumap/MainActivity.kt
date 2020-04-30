@@ -137,7 +137,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestServicesData() {
-        val url = "http://192.168.1.6:4000/services_mobile"
+        val url = resources.getString(R.string.url_mobile_services)
         Log.i("request url", url)
         val queue = Volley.newRequestQueue(applicationContext)
         val jsonArrayRequest = JsonArrayRequest(

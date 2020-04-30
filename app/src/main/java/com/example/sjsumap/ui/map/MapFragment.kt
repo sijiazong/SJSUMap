@@ -380,7 +380,7 @@ class MapFragment : Fragment(), OnMapReadyCallback,
 //    }
 
     private fun requestPolygonData() {
-        val url = "http://192.168.1.6:4000/polygons_mobile"
+        val url = resources.getString(R.string.url_mobile_polygons)
         Log.i("request url", url)
         val queue = Volley.newRequestQueue(activity!!.applicationContext)
         val jsonArrayRequest = JsonArrayRequest(
